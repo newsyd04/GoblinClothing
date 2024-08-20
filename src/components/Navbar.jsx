@@ -15,7 +15,7 @@ function Navbar() {
         className="text-white hover:bg-green-700 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
-        About
+        Fashion
       </Link>
       <Link
         to="/coins"
