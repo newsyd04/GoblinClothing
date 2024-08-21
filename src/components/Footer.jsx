@@ -28,7 +28,7 @@ function Footer() {
         <div className="text-center md:text-right">
           <ul className="flex flex-col md:flex-row md:space-x-6 text-sm">
             <li>
-              <a href="#" className="hover:text-green-400">
+              <a href="/home" className="hover:text-green-400">
                 About Us
               </a>
             </li>
