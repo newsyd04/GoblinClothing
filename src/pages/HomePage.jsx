@@ -6,7 +6,6 @@ import goblin5 from '../assets/goblin5.png';
 import goblinAbout7 from '../assets/goblin-about7.png';
 import goblinAbout5 from '../assets/goblin-about5.png';
 import goblinAbout2 from '../assets/goblin-about2.png';
-import Footer from '../components/Footer';
 
 const HomePage = () => {
   const slides = [goblin1, goblin3, goblin4, goblin5];
@@ -98,7 +97,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
