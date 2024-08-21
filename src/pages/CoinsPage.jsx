@@ -29,7 +29,7 @@ function CoinsPage() {
             <div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Coins</h2>
             </div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 gap-4">
             <div className="flex space-x-4">
                 <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
                 <FaFilter className="mr-2" /> Filters
