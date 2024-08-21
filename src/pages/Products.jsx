@@ -40,15 +40,15 @@ function ProductsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+              <div key={product.id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
                 <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
-                  <p className="text-gray-700">{product.description}</p>
-                  <p className="text-green-700 font-bold mt-2">{product.price}</p>
-                  <button className="mt-4 w-full bg-green-900 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-300">
+                <div className="flex flex-col flex-grow p-4">
+                  <div className="text-lg font-bold text-gray-900 mb-2">{product.name}</div>
+                  <div className="text-gray-700 mb-4 flex-grow">{product.description}</div>
+                  <div className="text-green-700 font-bold mb-4">{product.price} Shnargles</div>
+                  <div className="mt-auto w-full bg-green-900 text-white py-2 px-4 rounded-md text-center hover:bg-green-700 transition duration-300">
                     Add to Cart
-                  </button>
+                  </div>
                 </div>
               </div>
             ))}
