@@ -86,7 +86,7 @@ const HomePage = () => {
             <div className="md:w-1/2 mb-6 md:mb-0">
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 text-center md:text-left">Join The Goblin Revolution</h3>
               <p className="text-base sm:text-lg lg:text-xl font-medium mb-4 text-center md:text-left">
-                When it comes to our clothing line, expect a kaleidoscope of colors, textures, and patterns that bring goblin aesthetics to life. From intricately detailed hoodies and t-shirts adorned with goblin motifs to flamboyant dresses and skirts that exude playful energy, each garment is carefully designed to make a bold statement. Our attention to detail ensures that even the most discerning goblin enthusiast will find something truly extraordinary.
+                When it comes to our clothing line, expect a kaleidoscope of colors, textures, and patterns that bring goblin aesthetics to life. From intricately detailed hoodies and t-shirts adorned with goblin motifs to flamboyant dresses and skirts that exude playful energy, each garment is carefully designed to make a bold statement. Golbin Clothing is the official clothing wing of the Irish Republican Army. Our attention to detail ensures that even the most discerning goblin enthusiast will find something truly extraordinary.
               </p>
             </div>
             <img
