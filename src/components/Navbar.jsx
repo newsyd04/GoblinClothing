@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
+import logo from '../assets/GoblinClothingLogo.png'; // Import your logo image
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -56,11 +57,51 @@ function Navbar() {
     <nav className="bg-green-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-white text-2xl font-bold">
-              Goblin Clothing
+          {/* Mobile Menu Button */}
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white inline-flex items-center justify-center p-2 rounded-md hover:bg-green-700 focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Centered Logo and Title */}
+          <div className="flex-1 flex items-center justify-center md:relative md:justify-start">
+            <Link to="/" className="flex items-center text-white text-2xl font-bold">
+              <img src={logo} alt="Goblin Clothing Logo" className="h-8 w-8 mr-2" /> {/* Logo */}
+              <span className="">Goblin Clothing</span>
             </Link>
           </div>
+
+          {/* Cart Icon */}
+          <div className="flex items-center justify-end md:hidden relative">
+            <Link
+              to="/cart"
+              className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
+            >
+              <FaShoppingCart className="h-6 w-6" />
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                {cartItems.length}
+              </span>
+            </Link>
+          </div>
+
+          {/* Desktop Links */}
           <div className="hidden md:flex space-x-4 items-center">
             <MenuLinks />
             {/* Cart Icon */}
@@ -101,27 +142,6 @@ function Navbar() {
               )}
             </div>
           </div>
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-white inline-flex items-center justify-center p-2 rounded-md hover:bg-green-700 focus:outline-none"
-            >
-              <svg
-                className="h-6 w-6"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
-                />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -130,21 +150,6 @@ function Navbar() {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <MenuLinks toggleMenu={toggleMobileMenu} />
-
-            {/* Mobile Cart Link */}
-            <Link
-              to="/cart"
-              className="flex justify-between items-center text-white hover:bg-green-700 block px-3 py-2 rounded-md text-base font-bold mt-2"
-              onClick={toggleMobileMenu} // Close the mobile menu on navigation
-            >
-              <span>Cart</span>
-              <div className="flex items-center">
-                <FaShoppingCart className="h-6 w-6 ml-2" />
-                <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                  {cartItems.length}
-                </span>
-              </div>
-            </Link>
           </div>
         </div>
       )}
