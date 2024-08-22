@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { FaFilter, FaSortAmountDown } from 'react-icons/fa';
 import SeeAlsoComponent from '../components/SeeAlsoComponent';
 import api from '../api';
+import Toast from '../components/Toast'; // Import the Toast component
 
 function ProductsPage({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('lowToHigh');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -55,10 +58,14 @@ function ProductsPage({ cart, setCart }) {
         { productId: product._id, name: product.name, price: product.price, quantity: 1 }
       ]);
     }
+    setToastMessage('Item added to cart');
+    setShowToast(true);
   };
 
   return (
     <>
+      <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
+
       <div className="min-h-screen bg-gray-100">
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className='flex flex-col'>
@@ -83,13 +90,13 @@ function ProductsPage({ cart, setCart }) {
                         className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
                         onClick={() => { setSortOption('lowToHigh'); setIsDropdownOpen(false); }}
                       >
-                      Price low to high
+                        Price low to high
                       </div>
                       <div
                         className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
                         onClick={() => { setSortOption('highToLow'); setIsDropdownOpen(false); }}
                       >
-                      Price high to low
+                        Price high to low
                       </div>
                     </div>
                   )}

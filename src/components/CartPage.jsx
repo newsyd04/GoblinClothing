@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
+import { FaPlus, FaMinus, FaTrashAlt } from 'react-icons/fa';  // Import icons
 import api from '../api';
 
 function CartPage({ cart, setCart }) {
   const [cartProducts, setCartProducts] = useState([]);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCartProducts = async () => {
@@ -42,14 +43,14 @@ function CartPage({ cart, setCart }) {
     }, 0).toFixed(2);
   };
 
-    const handleCheckout = () => {
+  const handleCheckout = () => {
     navigate('/checkout', {
-        state: {
+      state: {
         cartProducts,
         calculateTotal: calculateTotal()
-        }
+      }
     });
-    };
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">
@@ -61,7 +62,7 @@ function CartPage({ cart, setCart }) {
               {cart.map(item => {
                 const product = cartProducts.find(p => p._id === item.productId);
                 return (
-                  <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow rounded-lg">
+                  <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow-md rounded-lg">
                     {product && (
                       <>
                         <div className="flex items-center">
@@ -72,18 +73,26 @@ function CartPage({ cart, setCart }) {
                           </div>
                         </div>
                         <div className="flex items-center space-x-4">
-                          <input
-                            type="number"
-                            className="w-16 border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                            value={item.quantity}
-                            onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value))}
-                            min="1"
-                          />
+                          <div className="flex items-center space-x-2">
+                            <button
+                              className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                              onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                            >
+                              <FaMinus />
+                            </button>
+                            <span className="text-lg font-bold px-4">{item.quantity}</span>
+                            <button
+                              className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                              onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                            >
+                              <FaPlus />
+                            </button>
+                          </div>
                           <button
-                            className="text-red-600 hover:text-red-900 font-bold"
+                            className="text-red-600 hover:text-red-800 font-bold"
                             onClick={() => handleRemove(item.productId)}
                           >
-                            Remove
+                            <FaTrashAlt />
                           </button>
                         </div>
                       </>
