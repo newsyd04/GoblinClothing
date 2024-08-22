@@ -46,7 +46,7 @@ function CartPage({ cart, setCart }) {
   const handleCheckout = () => {
     navigate('/checkout', {
       state: {
-        cartProducts,
+        cart,
         calculateTotal: calculateTotal()
       }
     });
