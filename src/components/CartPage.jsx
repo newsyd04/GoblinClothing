@@ -39,18 +39,22 @@ function CartPage({ cart, setCart }) {
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
       const product = cartProducts.find(p => p._id === item.productId);
-      return total + (product ? product.price * item.quantity : 0);
+      return total + (product ? Number(product.price) * Number(item.quantity) : 0);
     }, 0).toFixed(2);
   };
 
   const handleCheckout = () => {
+    console.log('Cart contents before checkout:', cart); // Log cart contents
+    const total = calculateTotal(); // Calculate the total
+    console.log('Total amount:', total); // Log the total
+  
     navigate('/checkout', {
       state: {
-        cartProducts,
-        calculateTotal: calculateTotal()
+        cartProducts: cart, // Passing the cart to the checkout page
+        total: total
       }
     });
-  };
+  };  
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">

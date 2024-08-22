@@ -4,7 +4,7 @@ import CheckoutForm from '../components/CheckoutForm';
 
 function CheckoutPage() {
   const location = useLocation();
-  const { cartProducts, calculateTotal } = location.state || {};
+  const { cartProducts, total } = location.state || {}; // Access total directly
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -21,10 +21,10 @@ function CheckoutPage() {
             ))}
             <li className="flex justify-between text-sm text-gray-700 font-bold">
               <span>Total</span>
-              <span>{calculateTotal} Shnargles</span> {/* Now this is a number */}
+              <span>{total} Shnargles</span> {/* Use the passed total */}
             </li>
           </ul>
-          <CheckoutForm cart={cartProducts} total={calculateTotal} />
+          <CheckoutForm cart={cartProducts} total={total} />
         </div>
       </div>
     </div>

@@ -30,6 +30,7 @@ function ProductsPage({ cart, setCart }) {
         }
 
         setProducts(sortedProducts);
+        console.log(sortedProducts); // Log to verify the product structure
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -41,26 +42,31 @@ function ProductsPage({ cart, setCart }) {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const addToCart = (productId) => {
-    const existingProduct = cart.find(item => item.productId === productId);
+  const addToCart = (product) => {
+    const existingProduct = cart.find(item => item.productId === product._id);
     if (existingProduct) {
       setCart(prevCart =>
         prevCart.map(item =>
-          item.productId === productId
+          item.productId === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       );
     } else {
-      const product = products.find(p => p._id === productId);
-      setCart(prevCart => [
-        ...prevCart,
-        { productId: product._id, name: product.name, price: product.price, quantity: 1 }
-      ]);
+      const newCartItem = {
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: 1
+      };
+      console.log('Adding new item to cart:', newCartItem); // Log new cart item
+      setCart(prevCart => [...prevCart, newCartItem]);
     }
+    console.log('Updated cart:', cart); // Log entire cart state after addition
     setToastMessage('Item added to cart');
     setShowToast(true);
   };
+  
 
   return (
     <>
@@ -127,7 +133,7 @@ function ProductsPage({ cart, setCart }) {
                   <div className="text-green-700 font-bold mb-4">{product.price} Shnargles</div>
                   <div
                     className="mt-auto w-full bg-green-900 text-white py-2 px-4 rounded-md text-center hover:bg-green-700 transition duration-300 cursor-pointer"
-                    onClick={() => addToCart(product._id)}
+                    onClick={() => addToCart(product)}
                   >
                     Add to Cart
                   </div>
