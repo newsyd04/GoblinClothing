@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import HomePage from './pages/HomePage';
@@ -9,20 +9,27 @@ import CheckoutPage from './pages/CheckoutPage';
 import CoinsPage from './pages/CoinsPage';
 import AmuletsPage from './pages/AmuletsPage';
 import ScrapsPage from './pages/ScrapsPage';
+import CartPage from './components/CartPage';
 
 function App() {
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   return (
     <Router>
+      <Navbar cart={cart} setCart={setCart} />
       <Routes>
-        {/* LandingPage route without Navbar */}
         <Route path="/" element={<LandingPage />} />
-
-        {/* All other routes with Navbar */}
         <Route
           path="/home"
           element={
             <>
-              <Navbar />
               <HomePage />
               <Footer />
             </>
@@ -32,8 +39,16 @@ function App() {
           path="/products"
           element={
             <>
-              <Navbar />
-              <ProductsPage />
+              <ProductsPage cart={cart} setCart={setCart} />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <>
+              <CheckoutPage />
               <Footer />
             </>
           }
@@ -42,8 +57,7 @@ function App() {
           path="/cart"
           element={
             <>
-              <Navbar />
-              <CheckoutPage />
+              <CartPage cart={cart} setCart={setCart} />
               <Footer />
             </>
           }
@@ -52,7 +66,6 @@ function App() {
           path="/coins"
           element={
             <>
-              <Navbar />
               <CoinsPage />
               <Footer />
             </>
@@ -62,7 +75,6 @@ function App() {
           path="/amulets"
           element={
             <>
-              <Navbar />
               <AmuletsPage />
               <Footer />
             </>
@@ -72,13 +84,11 @@ function App() {
           path="/scraps"
           element={
             <>
-              <Navbar />
               <ScrapsPage />
               <Footer />
             </>
           }
         />
-        {/* You can add more routes here that include the Navbar */}
       </Routes>
     </Router>
   );

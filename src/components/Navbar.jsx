@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import logo from '../assets/GoblinClothingLogo.png'; // Import your logo image
+import logo from '../assets/GoblinClothingLogo.png';
 
-function Navbar() {
+function Navbar({ cart, setCart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems] = useState([
-    // Example cart items
-    { id: 1, name: 'Goblin Hoodie', price: '$49.99', quantity: 1 },
-    { id: 2, name: 'Goblin T-Shirt', price: '$24.99', quantity: 2 },
-  ]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,6 +13,10 @@ function Navbar() {
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const removeFromCart = (productId) => {
+    setCart(prevCart => prevCart.filter(item => item.productId !== productId));
   };
 
   const MenuLinks = ({ toggleMenu }) => (
@@ -57,7 +56,6 @@ function Navbar() {
     <nav className="bg-green-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
             <button
               onClick={toggleMobileMenu}
@@ -80,15 +78,13 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Centered Logo and Title */}
           <div className="flex-1 flex items-center justify-center md:relative md:justify-start">
             <Link to="/" className="flex items-center text-white text-2xl font-bold">
-              <img src={logo} alt="Goblin Clothing Logo" className="h-8 w-8 mr-2" /> {/* Logo */}
-              <span className="">Goblin Clothing</span>
+              <img src={logo} alt="Goblin Clothing Logo" className="h-8 w-8 mr-2" />
+              <span>Goblin Clothing</span>
             </Link>
           </div>
 
-          {/* Cart Icon */}
           <div className="flex items-center justify-end md:hidden relative">
             <Link
               to="/cart"
@@ -96,15 +92,13 @@ function Navbar() {
             >
               <FaShoppingCart className="h-6 w-6" />
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                {cartItems.length}
+                {cart.length}
               </span>
             </Link>
           </div>
 
-          {/* Desktop Links */}
           <div className="hidden md:flex space-x-4 items-center">
             <MenuLinks />
-            {/* Cart Icon */}
             <div className="relative">
               <button
                 onClick={toggleCart}
@@ -112,19 +106,26 @@ function Navbar() {
               >
                 <FaShoppingCart className="h-6 w-6" />
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                  {cartItems.length}
+                  {cart.length}
                 </span>
               </button>
-              {/* Cart Dropdown */}
               {isCartOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
                   <h2 className="font-bold text-lg mb-2">Your Cart</h2>
-                  {cartItems.length > 0 ? (
+                  {cart.length > 0 ? (
                     <ul>
-                      {cartItems.map(item => (
-                        <li key={item.id} className="flex justify-between text-sm mb-2">
+                      {cart.map(item => (
+                        <li key={item.productId} className="flex justify-between items-center text-sm mb-2">
                           <span>{item.name} (x{item.quantity})</span>
-                          <span>{item.price}</span>
+                          <div className="flex items-center space-x-2">
+                            <span>{item.price}</span>
+                            <button
+                              className="text-red-600 hover:text-red-900 font-bold"
+                              onClick={() => removeFromCart(item.productId)}
+                            >
+                              Remove
+                            </button>
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -134,7 +135,7 @@ function Navbar() {
                   <Link
                     to="/cart"
                     className="block mt-4 text-center bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
-                    onClick={() => setIsCartOpen(false)} // Close the cart dropdown on navigation
+                    onClick={() => setIsCartOpen(false)}
                   >
                     Go to Cart
                   </Link>
@@ -145,7 +146,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">

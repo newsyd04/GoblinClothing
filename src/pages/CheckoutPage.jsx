@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function CheckoutPage() {
+  const location = useLocation();
+  const { cartProducts = [], calculateTotal = 0 } = location.state || {}; // Handle null state
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -208,21 +212,15 @@ function CheckoutPage() {
           <div className="bg-white shadow-md rounded-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Order Summary</h2>
             <ul className="mb-6">
-              <li className="flex justify-between text-sm text-gray-700 mb-2">
-                <span>Goblin Hoodie (x1)</span>
-                <span>$49.99</span>
-              </li>
-              <li className="flex justify-between text-sm text-gray-700 mb-2">
-                <span>Goblin T-Shirt (x2)</span>
-                <span>$49.98</span>
-              </li>
-              <li className="flex justify-between text-sm text-gray-700 mb-2">
-                <span>Goblin Hat (x1)</span>
-                <span>$19.99</span>
-              </li>
+              {cartProducts.map(item => (
+                <li key={item.productId} className="flex justify-between text-sm text-gray-700 mb-2">
+                  <span>{item.name} (x{item.quantity})</span>
+                  <span>{item.price * item.quantity} Shnargles</span>
+                </li>
+              ))}
               <li className="flex justify-between text-sm text-gray-700 font-bold">
                 <span>Total</span>
-                <span>$119.96</span>
+                <span>{calculateTotal} Shnargles</span>
               </li>
             </ul>
           </div>
