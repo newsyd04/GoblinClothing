@@ -1,10 +1,11 @@
-// src/components/CheckoutForm.jsx
 import React from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 function CheckoutForm({ cart, total }) {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,6 +40,7 @@ function CheckoutForm({ cart, total }) {
         } else {
           console.log('Payment successful!');
           // Redirect to success page or show success message
+          navigate('/payment-success'); // Use navigate to redirect to the confirmation page
         }
       }
     }
