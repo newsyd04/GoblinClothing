@@ -42,14 +42,14 @@ function CartPage({ cart, setCart }) {
     }, 0).toFixed(2);
   };
 
-  const handleCheckout = () => {
+    const handleCheckout = () => {
     navigate('/checkout', {
-      state: {
+        state: {
         cartProducts,
         calculateTotal: calculateTotal()
-      }
+        }
     });
-  };  
+    };
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">
