@@ -41,7 +41,6 @@ function ProductsPage({ cart, setCart }) {
   const addToCart = (productId) => {
     const existingProduct = cart.find(item => item.productId === productId);
     if (existingProduct) {
-      // Update the quantity if the product is already in the cart
       setCart(prevCart =>
         prevCart.map(item =>
           item.productId === productId
@@ -66,14 +65,14 @@ function ProductsPage({ cart, setCart }) {
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Products</h2>
             </div>
-            <div className="flex justify-between items-center mb-6 gap-4">
-              <div className="flex space-x-4">
-                <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+              <div className="flex space-x-4 w-full md:w-auto">
+                <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 w-full md:w-auto justify-center">
                   <FaFilter className="mr-2" /> Filters
                 </button>
-                <div className="relative">
+                <div className="relative w-full md:w-auto">
                   <button
-                    className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200"
+                    className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 w-full md:w-auto justify-center"
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
                     <FaSortAmountDown className="mr-2" /> Sort by
@@ -96,16 +95,19 @@ function ProductsPage({ cart, setCart }) {
                   )}
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
                 <input
                   type="text"
-                  className="px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full md:w-auto"
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <p className="text-gray-700">Showing {filteredProducts.length} results</p>
+                <p className="text-gray-700 hidden md:block">Showing {filteredProducts.length} results</p>
               </div>
+            </div>
+            <div className="md:hidden text-gray-700 mb-4 text-center">
+              Showing {filteredProducts.length} results
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
