@@ -43,12 +43,14 @@ function Navbar({ cart, setCart }) {
   // Function to toggle search bar and focus the input
   const toggleSearchBar = () => {
     setIsSearchActive(!isSearchActive);
-    if (!isSearchActive && mobileSearchInputRef.current) {
-      setTimeout(() => {
-        mobileSearchInputRef.current.focus(); // Focus the input when search bar opens
-      }, 0); // Delay focus to ensure the element is rendered
-    }
   };
+
+  // Focus on the input field when the search bar becomes active
+  useEffect(() => {
+    if (isSearchActive && mobileSearchInputRef.current) {
+      mobileSearchInputRef.current.focus();
+    }
+  }, [isSearchActive]);
 
   const MenuLinks = ({ toggleMenu }) => (
     <>
