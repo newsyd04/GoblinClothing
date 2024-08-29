@@ -8,14 +8,17 @@ function ProductsPage({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('lowToHigh');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const searchQuery = location.state?.searchQuery || ''; // Extract search query
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get('/products');
+        // Send search query to the backend
+        const response = await api.get('/products', {
+          params: { search: searchQuery },
+        });
         let sortedProducts = response.data;
 
         switch (sortOption) {
@@ -36,7 +39,7 @@ function ProductsPage({ cart, setCart }) {
       }
     };
     fetchProducts();
-  }, [sortOption]);
+  }, [sortOption, searchQuery]); 
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -109,13 +112,6 @@ function ProductsPage({ cart, setCart }) {
                 </div>
               </div>
               <div className="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
-                <input
-                  type="text"
-                  className="px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full md:w-auto"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
                 <p className="text-gray-700 hidden md:block">Showing {filteredProducts.length} results</p>
               </div>
             </div>

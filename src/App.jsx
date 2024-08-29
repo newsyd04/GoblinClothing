@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import { StripeContext } from './StripeContext';
 import ConfirmationPage from './pages/ConfirmationPage';
+import SearchResultsPage from './pages/SearchResultsPage';
 
 function App() {
   const [cart, setCart] = useState(() => {
@@ -49,6 +50,7 @@ function MainApp({ cart, setCart }) {
         <Route path="/checkout" element={<><CheckoutPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="/cart" element={<><CartPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="/payment-success" element={<><ConfirmationPage /><Footer /></>} />
+        <Route path="/search-results" element={<><SearchResultsPage cart={cart} setCart={setCart} /><Footer /></>} />
       </Routes>
     </>
   );
