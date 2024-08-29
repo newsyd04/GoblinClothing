@@ -213,9 +213,6 @@ function Navbar({ cart, setCart }) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              <button type="submit" className="ml-2 text-white">
-                <FaSearch className="text-white" />
-              </button>
             </form>
             <button
               onClick={() => setIsSearchActive(false)}
