@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus, FaTrashAlt } from 'react-icons/fa';  // Import icons
 import api from '../api';
+import Toast from '../components/Toast'; // Import the Toast component
 
 function CartPage({ cart, setCart }) {
   const [cartProducts, setCartProducts] = useState([]);
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const fetchCartProducts = async () => {
@@ -35,6 +38,8 @@ function CartPage({ cart, setCart }) {
 
   const handleRemove = (productId) => {
     setCart(prevCart => prevCart.filter(item => item.productId !== productId));
+    setToastMessage('Item removed from cart');
+    setShowToast(true);
   };
 
   const calculateTotal = () => {
@@ -58,6 +63,7 @@ function CartPage({ cart, setCart }) {
   };  
 
   return (
+    <><Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
     <div className="min-h-screen bg-gray-100 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Cart</h1>
@@ -122,7 +128,7 @@ function CartPage({ cart, setCart }) {
           <p className="text-gray-700">Your cart is empty.</p>
         )}
       </div>
-    </div>
+    </div></>
   );
 }
 

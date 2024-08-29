@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import logo from '../assets/GoblinClothingLogo.png';
+import Toast from '../components/Toast';
 
 function Navbar({ cart, setCart }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -17,10 +20,13 @@ function Navbar({ cart, setCart }) {
 
   const removeFromCart = (productId) => {
     setCart(prevCart => prevCart.filter(item => item.productId !== productId));
+    setToastMessage('Item removed from cart');
+    setShowToast(true);
   };
 
   const MenuLinks = ({ toggleMenu }) => (
     <>
+      <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
       <Link
         to="/products"
         className="text-white hover:bg-green-700 block px-3 py-2 rounded-md text-base font-bold"
