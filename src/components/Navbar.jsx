@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaSearch, FaTimes } from 'react-icons/fa';
 import logo from '../assets/GoblinClothingLogo.png';
@@ -12,6 +12,7 @@ function Navbar({ cart, setCart }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false); // State for showing search on mobile
   const navigate = useNavigate();
+  const mobileSearchInputRef = useRef(null); // Ref for mobile search input
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -31,6 +32,11 @@ function Navbar({ cart, setCart }) {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate('/search-results', { state: { searchQuery } });
+      setIsSearchActive(false); // Close the search bar on mobile
+      setSearchQuery(''); // Clear the search query
+      if (mobileSearchInputRef.current) {
+        mobileSearchInputRef.current.blur(); // Dismiss the keyboard by removing focus
+      }
     }
   };
 
@@ -190,7 +196,7 @@ function Navbar({ cart, setCart }) {
       </nav>
 
       {/* Sub-Navbar for Desktop */}
-      <div className="bg-green-500 hidden md:flex justify-center space-x-8 py-1">
+      <div className="bg-green-500 hidden md:flex justify-center space-x-8 py-2">
         <MenuLinks />
       </div>
 
@@ -200,12 +206,16 @@ function Navbar({ cart, setCart }) {
           <div className="flex items-center justify-between px-4">
             <form onSubmit={handleSearch} className="flex items-center w-full">
               <input
+                ref={mobileSearchInputRef} // Attach ref to the mobile search input
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
+              <button type="submit" className="ml-2 text-white">
+                <FaSearch className="text-white" />
+              </button>
             </form>
             <button
               onClick={() => setIsSearchActive(false)}
