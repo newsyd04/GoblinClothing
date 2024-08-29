@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaSearch, FaTimes } from 'react-icons/fa';
 import logo from '../assets/GoblinClothingLogo.png';
@@ -37,6 +37,16 @@ function Navbar({ cart, setCart }) {
       if (mobileSearchInputRef.current) {
         mobileSearchInputRef.current.blur(); // Dismiss the keyboard by removing focus
       }
+    }
+  };
+
+  // Function to toggle search bar and focus the input
+  const toggleSearchBar = () => {
+    setIsSearchActive(!isSearchActive);
+    if (!isSearchActive && mobileSearchInputRef.current) {
+      setTimeout(() => {
+        mobileSearchInputRef.current.focus(); // Focus the input when search bar opens
+      }, 0); // Delay focus to ensure the element is rendered
     }
   };
 
@@ -127,7 +137,7 @@ function Navbar({ cart, setCart }) {
             {/* Mobile Search Icon */}
             <div className="md:hidden flex items-center">
               <button
-                onClick={() => setIsSearchActive(!isSearchActive)}
+                onClick={toggleSearchBar}
                 className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
               >
                 <FaSearch className="h-6 w-6" />
