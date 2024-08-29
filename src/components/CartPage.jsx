@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaPlus, FaMinus, FaTrashAlt } from 'react-icons/fa';  // Import icons
 import api from '../api';
 import Toast from '../components/Toast'; // Import the Toast component
+import SeeAlsoComponent from './SeeAlsoComponent';
 
 function CartPage({ cart, setCart }) {
   const [cartProducts, setCartProducts] = useState([]);
@@ -125,7 +126,7 @@ function CartPage({ cart, setCart }) {
             </div>
           </div>
         ) : (
-          <p className="text-gray-700">Your cart is empty.</p>
+          <><p className="text-gray-700">Your cart is empty.</p><button onClick={() => navigate('/products')} className="bg-green-600 text-white py-3 px-6 rounded-md shadow hover:bg-green-700 transition duration-300 mt-4">Return to shopping</button></>
         )}
       </div>
     </div></>
