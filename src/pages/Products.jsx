@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaFilter, FaSortAmountDown } from 'react-icons/fa';
 import SeeAlsoComponent from '../components/SeeAlsoComponent';
 import api from '../api';
@@ -11,6 +12,7 @@ function ProductsPage({ cart, setCart }) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const searchQuery = location.state?.searchQuery || ''; // Extract search query
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -45,7 +47,9 @@ function ProductsPage({ cart, setCart }) {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const addToCart = (product) => {
+  const addToCart = (product, e) => {
+    e.stopPropagation();
+
     const existingProduct = cart.find(item => item.productId === product._id);
     if (existingProduct) {
       setCart(prevCart =>
@@ -69,7 +73,20 @@ function ProductsPage({ cart, setCart }) {
     setToastMessage('Item added to cart');
     setShowToast(true);
   };
-  
+ 
+  function handleProductClicked(product) {
+    navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`,
+      { state:
+        {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image:product.image,
+          description: product.description,
+          quantity: product.quantity
+        } 
+      });
+  }
 
   return (
     <>
@@ -121,18 +138,22 @@ function ProductsPage({ cart, setCart }) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
-              <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
+              <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer"
+              onClick={() => {handleProductClicked(product)}}>
                 <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
                 <div className="flex flex-col flex-grow p-4">
                   <div className="text-lg font-bold text-gray-900 mb-2">{product.name}</div>
-                  <div className="text-gray-700 mb-4 flex-grow">{product.description}</div>
                   <div className="text-green-700 font-bold mb-4">{product.price} Shnargles</div>
-                  <div
-                    className="mt-auto w-full bg-green-900 text-white py-2 px-4 rounded-md text-center hover:bg-green-700 transition duration-300 cursor-pointer"
-                    onClick={() => addToCart(product)}
+                  <button
+                  // will we add check to see the amount in cart to disable too?
+                    className={product.quantity<=0 ? 
+                      "mt-auto w-full bg-gray-300 text-white py-2 px-4 rounded-md text-center cursor-not-allowed" 
+                      : "mt-auto w-full bg-green-700 text-white py-2 px-4 rounded-md text-center hover:bg-green-900 transition duration-300 cursor-pointer"}
+                    disabled={product.quantity <= 0}
+                    onClick={(e) => addToCart(product, e)}
                   >
                     Add to Cart
-                  </div>
+                  </button>
                 </div>
               </div>
             ))}
