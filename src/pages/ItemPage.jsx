@@ -71,8 +71,8 @@ function ItemPage({ cart, setCart }) {
                     <hr className='my-2'/>
                     <div className='flex items-start'>
                     <form class="max-w-sm">
-                        <label for="sizes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a size</label>
-                        <select id="sizes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <label for="sizes" class="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
+                        <select id="sizes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option selected></option>
                             <option value="US">Small</option>
                             <option value="CA">Medium</option>

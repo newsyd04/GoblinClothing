@@ -14,6 +14,7 @@ import { StripeContext } from './StripeContext';
 import ConfirmationPage from './pages/ConfirmationPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import ItemPage from './pages/ItemPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const [cart, setCart] = useState(() => {
@@ -53,6 +54,7 @@ function MainApp({ cart, setCart }) {
         <Route path="/cart" element={<><CartPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="/payment-success" element={<><ConfirmationPage /><Footer /></>} />
         <Route path="/search-results" element={<><SearchResultsPage cart={cart} setCart={setCart} /><Footer /></>} />
+        <Route path="*" element={<><NotFoundPage /><Footer /></>} />
       </Routes>
     </>
   );
