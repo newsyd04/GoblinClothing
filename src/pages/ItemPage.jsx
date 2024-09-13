@@ -70,39 +70,37 @@ function ItemPage({ cart, setCart }) {
 
                     <hr className='my-2'/>
                     <div className='flex flex-row gap-6'>
-                        <div className='flex items-start'>
-                            <form class="max-w-sm">
-                                <label for="sizes" class="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
-                                <select id="sizes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option selected></option>
-                                    <option value="US">Small</option>
-                                    <option value="CA">Medium</option>
-                                    <option value="FR">Large</option>
-                                    <option value="DE">Extra-Large</option>
-                                </select>
-                            </form>
-                        </div>
-                    
                     {quantity > 0 && (
-                        <div className="mt-6 flex items-center space-x-4">
-                            <button 
-                                className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
+                        <><div className='flex items-start'>
+                                <form class="max-w-sm">
+                                    <label for="sizes" class="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
+                                    <select id="sizes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <option selected></option>
+                                        <option value="US">Small</option>
+                                        <option value="CA">Medium</option>
+                                        <option value="FR">Large</option>
+                                        <option value="DE">Extra-Large</option>
+                                    </select>
+                                </form>
+                            </div><div className="mt-6 flex items-center space-x-4">
+                                    <button
+                                        className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
                                 ${selectedQuantity === 1 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-900'}`}
-                                onClick={() => handleQuantityChange('decrement')}
-                                disabled={selectedQuantity === 1}
-                            >
-                                −
-                            </button>
-                            <span className="text-2xl font-bold text-gray-900">{selectedQuantity}</span>
-                            <button 
-                                className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
+                                        onClick={() => handleQuantityChange('decrement')}
+                                        disabled={selectedQuantity === 1}
+                                    >
+                                        −
+                                    </button>
+                                    <span className="text-2xl font-bold text-gray-900">{selectedQuantity}</span>
+                                    <button
+                                        className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
                                 ${selectedQuantity === quantity ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-900'}`}
-                                onClick={() => handleQuantityChange('increment')}
-                                disabled={selectedQuantity === quantity}
-                            >
-                                +
-                            </button>
-                        </div>
+                                        onClick={() => handleQuantityChange('increment')}
+                                        disabled={selectedQuantity === quantity}
+                                    >
+                                        +
+                                    </button>
+                                </div></>
                     )}
                     </div>
 
