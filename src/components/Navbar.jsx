@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaShoppingCart, FaSearch, FaTimes } from 'react-icons/fa';
+import { FaShoppingCart, FaSearch, FaTimes, FaBars } from 'react-icons/fa';
 import logo from '../assets/GoblinClothingLogo.png';
 import Toast from '../components/Toast';
 
@@ -10,9 +10,9 @@ function Navbar({ cart, setCart }) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchActive, setIsSearchActive] = useState(false); // State for showing search on mobile
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false); // Modal state
   const navigate = useNavigate();
-  const mobileSearchInputRef = useRef(null); // Ref for mobile search input
+  const mobileSearchInputRef = useRef(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -20,6 +20,12 @@ function Navbar({ cart, setCart }) {
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const closeModal = () => {
+    setIsCartOpen(false);
+    setIsSearchModalOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
   const removeFromCart = (productId) => {
@@ -32,52 +38,47 @@ function Navbar({ cart, setCart }) {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate('/search-results', { state: { searchQuery } });
-      setIsSearchActive(false); // Close the search bar on mobile
+      setIsSearchModalOpen(false); // Close modal after search
       setSearchQuery(''); // Clear the search query
-      if (mobileSearchInputRef.current) {
-        mobileSearchInputRef.current.blur(); // Dismiss the keyboard by removing focus
-      }
     }
   };
 
-  // Function to toggle search bar and focus the input
-  const toggleSearchBar = () => {
-    setIsSearchActive(!isSearchActive);
+  const toggleSearchModal = () => {
+    setIsSearchModalOpen(!isSearchModalOpen);
   };
 
-  // Focus on the input field when the search bar becomes active
   useEffect(() => {
-    if (isSearchActive && mobileSearchInputRef.current) {
+    if (isSearchModalOpen && mobileSearchInputRef.current) {
       mobileSearchInputRef.current.focus();
     }
-  }, [isSearchActive]);
+  }, [isSearchModalOpen]);
 
   const MenuLinks = ({ toggleMenu }) => (
     <>
       <Link
         to="/products"
-        className="text-white block px-3 py-2 rounded-md text-base font-bold"
+        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
         Fashion
       </Link>
       <Link
         to="/coins"
-        className="text-white block px-3 py-2 rounded-md text-base font-bold"
+        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
         Coins
       </Link>
       <Link
         to="/amulets"
-        className="text-white block px-3 py-2 rounded-md text-base font-bold"
+        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
         Amulets
       </Link>
       <Link
         to="/scraps"
-        className="text-white block px-3 py-2 rounded-md text-base font-bold"
+        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
         Scraps
@@ -88,158 +89,179 @@ function Navbar({ cart, setCart }) {
   return (
     <>
       {/* Main Navbar */}
-      <nav className="bg-green-600">
+      <nav className="bg-white sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center md:hidden">
+          <div className="flex items-center justify-between h-24">
+
+            {/* Left - Hamburger Menu and Search (Mobile) */}
+            <div className="flex items-center space-x-2 md:space-x-4">
               <button
                 onClick={toggleMobileMenu}
-                className="text-white inline-flex items-center justify-center p-2 rounded-md hover:bg-green-700 focus:outline-none"
+                className="text-gray-500 p-2 rounded-md focus:outline-none md:hidden z-20"
               >
-                <svg
-                  className="h-6 w-6"
-                  stroke="currentColor"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}
-                  />
-                </svg>
+                <FaBars className="h-6 w-6" />
               </button>
-            </div>
 
-            <div className="flex-1 flex items-center justify-center md:relative md:justify-start">
-              <Link to="/" className="flex items-center text-white text-2xl font-bold">
-                <img src={logo} alt="Goblin Clothing Logo" className="h-8 w-8 mr-2" />
-                <span>Goblin Clothing</span>
-              </Link>
-            </div>
+              <button
+                onClick={toggleSearchModal}
+                className="text-gray-500 p-2 rounded-full focus:outline-none md:hidden z-20"
+              >
+                <FaSearch />
+              </button>
 
-            {/* Desktop Search Bar */}
-            <div className="hidden md:flex items-center space-x-4">
-              <form onSubmit={handleSearch} className="relative flex items-center w-full max-w-md">
+              {/* Desktop Search Bar */}
+              <form
+                onSubmit={handleSearch}
+                className="hidden md:flex items-center space-x-2 z-20"
+              >
                 <input
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
-                <button type="submit" className="absolute right-0 pr-3">
-                  <FaSearch className="text-gray-500 hover:text-indigo-500" />
+                <button type="submit" className="ml-2 text-gray-400">
+                  <FaSearch />
                 </button>
               </form>
             </div>
 
-            {/* Mobile Search Icon */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={toggleSearchBar}
-                className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
-              >
-                <FaSearch className="h-6 w-6" />
-              </button>
+            {/* Center - Logo (Always Centered) */}
+            <div className="absolute inset-x-0 flex justify-center z-10">
+              <Link to="/" className="flex items-cente text-2xl font-bold">
+                <div className="flex items-center flex-col">
+                  <span className="text-green-800">Goblin </span>
+                  <span className="text-green-900">Clothing</span>
+                </div>
+              </Link>
             </div>
 
-            <div className="flex items-center justify-end md:hidden relative">
-              <Link
-                to="/cart"
-                className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
+            {/* Right - Cart Button */}
+            <div className="flex items-center ml-auto z-20">
+              <Link to="/cart" className="hidden md:block text-black font-bold mx-2">
+                Cart
+              </Link>
+              <button
+                onClick={toggleCart}
+                className="relative text-black p-2 rounded-full focus:outline-none"
               >
                 <FaShoppingCart className="h-6 w-6" />
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
                   {cart.length}
                 </span>
-              </Link>
-            </div>
-
-            <div className="hidden md:flex space-x-4 items-center">
-              <div className="relative">
-                <button
-                  onClick={toggleCart}
-                  className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
-                >
-                  <FaShoppingCart className="h-6 w-6" />
-                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                    {cart.length}
-                  </span>
-                </button>
-                {isCartOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
-                    <h2 className="font-bold text-lg mb-2">Your Cart</h2>
-                    {cart.length > 0 ? (
-                      <ul>
-                        {cart.map(item => (
-                          <li key={item.productId} className="flex justify-between items-center text-sm mb-2">
-                            <span>{item.name} (x{item.quantity})</span>
-                            <div className="flex items-center space-x-2">
-                              <span>{item.price}</span>
-                              <button
-                                className="text-red-600 hover:text-red-900 font-bold"
-                                onClick={() => removeFromCart(item.productId)}
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-sm text-gray-600">Your cart is empty.</p>
-                    )}
-                    <Link
-                      to="/cart"
-                      className="block mt-4 text-center bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
-                      onClick={() => setIsCartOpen(false)}
-                    >
-                      Go to Cart
-                    </Link>
-                  </div>
-                )}
-              </div>
+              </button>
             </div>
           </div>
         </div>
+        <hr />
       </nav>
 
       {/* Sub-Navbar for Desktop */}
-      <div className="bg-green-500 hidden md:flex justify-center space-x-8 py-2">
-        <MenuLinks />
+      <div className='flex flex-col sticky top-24 z-20  '>
+        <div className="bg-white hidden md:flex justify-center space-x-8 py-2 ">
+          <MenuLinks />
+        </div>
+        <div>
+          <hr />
+        </div>
       </div>
-
-      {/* Mobile Search Bar Sub-Navbar */}
-      {isSearchActive && (
-        <div className="bg-green-500 md:hidden py-2">
-          <div className="flex items-center justify-between px-4">
+      {/* Search Modal */}
+      {isSearchModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white p-6 rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside
+          >
             <form onSubmit={handleSearch} className="flex items-center w-full">
               <input
-                ref={mobileSearchInputRef} // Attach ref to the mobile search input
+                ref={mobileSearchInputRef}
                 type="text"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
               />
+              <button type="submit" className="ml-2 text-green-500">
+                <FaSearch />
+              </button>
             </form>
             <button
-              onClick={() => setIsSearchActive(false)}
-              className="text-white hover:bg-green-700 p-2 rounded-full focus:outline-none"
+              onClick={toggleSearchModal}
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
             >
-              <FaTimes className="h-6 w-6" />
+              <FaTimes />
             </button>
           </div>
         </div>
       )}
 
-      {/* Mobile Menu Items */}
+      {/* Mobile Menu as a Modal (Slide in from Left) */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-green-600 px-2 pt-2 pb-3 space-y-1">
-          <MenuLinks toggleMenu={toggleMobileMenu} />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-start z-50 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white p-6 w-64 h-full shadow-lg overflow-y-auto"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside
+          >
+            {/* X Button inside the menu */}
+            <button
+              onClick={toggleMobileMenu}
+              className="text-black hover:text-green-600 absolute top-2 left-56 focus:outline-none"
+            >
+              <FaTimes className="h-6 w-6" />
+            </button>
+            <nav className="mt-8 space-y-4">
+              <MenuLinks toggleMenu={toggleMobileMenu} />
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Cart Modal */}
+      {isCartOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-end z-50 backdrop-blur-sm"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white p-6 w-72 h-full shadow-lg overflow-y-auto"
+            onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside
+          >
+            <h2 className="font-bold text-lg mb-2">Your Cart</h2>
+            {cart.length > 0 ? (
+              <ul>
+                {cart.map(item => (
+                  <li key={item.productId} className="flex justify-between items-center text-sm mb-2">
+                    <span>{item.name} (x{item.quantity})</span>
+                    <div className="flex items-center space-x-2">
+                      <span>{item.price}</span>
+                      <button
+                        className="text-red-600 hover:text-red-900 font-bold"
+                        onClick={() => removeFromCart(item.productId)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-gray-600">Your cart is empty.</p>
+            )}
+            <Link
+              to="/cart"
+              className="block mt-4 text-center bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
+              onClick={() => setIsCartOpen(false)}
+            >
+              Go to Cart
+            </Link>
+          </div>
         </div>
       )}
     </>
