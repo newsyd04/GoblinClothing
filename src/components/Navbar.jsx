@@ -131,7 +131,7 @@ function Navbar({ cart, setCart }) {
             <div className="absolute inset-x-0 flex justify-center z-10">
               <Link to="/">
                 <div className="flex items-center">
-                  <img src={logo} className="h-12 w-auto" alt="Goblin Clothing Logo" />
+                  <img src={logo} className="h-24 w-auto" alt="Goblin Clothing Logo" />
                 </div>
               </Link>
             </div>
