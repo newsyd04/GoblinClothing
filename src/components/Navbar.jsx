@@ -88,6 +88,9 @@ function Navbar({ cart, setCart }) {
 
   return (
     <>
+      <div className="bg-green-600 text-white text-center py-2">
+        Wear the Goblin today!
+      </div>
       {/* Main Navbar */}
       <nav className="bg-white sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
