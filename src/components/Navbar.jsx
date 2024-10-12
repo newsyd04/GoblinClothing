@@ -129,9 +129,9 @@ function Navbar({ cart, setCart }) {
 
             {/* Center - Logo (Always Centered) */}
             <div className="absolute inset-x-0 flex justify-center z-10">
-              <Link to="/" className="flex items-center text-2xl font-bold">
-                <div className="flex items-center flex-col">
-                  <img src={logo} alt="Goblin Clothing Logo" />
+              <Link to="/">
+                <div className="flex items-center">
+                  <img src={logo} className="h-12 w-auto" alt="Goblin Clothing Logo" />
                 </div>
               </Link>
             </div>
