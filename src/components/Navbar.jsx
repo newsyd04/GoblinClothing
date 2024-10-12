@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaSearch, FaTimes, FaBars } from 'react-icons/fa';
-import logo from '../assets/GoblinClothingLogo.png';
+import logo from '../assets/logo.png';
 import Toast from '../components/Toast';
 
 function Navbar({ cart, setCart }) {
@@ -129,10 +129,9 @@ function Navbar({ cart, setCart }) {
 
             {/* Center - Logo (Always Centered) */}
             <div className="absolute inset-x-0 flex justify-center z-10">
-              <Link to="/" className="flex items-cente text-2xl font-bold">
+              <Link to="/" className="flex items-center text-2xl font-bold">
                 <div className="flex items-center flex-col">
-                  <span className="text-green-800">Goblin </span>
-                  <span className="text-green-900">Clothing</span>
+                  <img src={logo} alt="Goblin Clothing Logo" />
                 </div>
               </Link>
             </div>
