@@ -88,7 +88,7 @@ function Navbar({ cart, setCart }) {
 
   return (
     <>
-      <div className="bg-green-600 text-white text-center py-2">
+      <div className="bg-green-600 text-white text-center py-2 font-semibold text-lg tracking-wide">
         Wear the Goblin today!
       </div>
       {/* Main Navbar */}
