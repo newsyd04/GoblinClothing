@@ -5,7 +5,7 @@ import goblin1 from '../assets/goblin1.png';
 import goblin3 from '../assets/goblin3.png';
 import goblin4 from '../assets/goblin4.png';
 import goblin5 from '../assets/goblin5.png';
-import coins from '../assets/coins4.png';
+import coins from '../assets/Coins4.png';
 import scrap from '../assets/image3.png';
 import amulet from '../assets/image4.png';
 import api from '../api'; // Import your API service
