@@ -16,6 +16,7 @@ import SearchResultsPage from './pages/SearchResultsPage';
 import ItemPage from './pages/ItemPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AdsPage from './pages/AdsPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   const [cart, setCart] = useState(() => {
@@ -57,6 +58,7 @@ function MainApp({ cart, setCart }) {
         <Route path="/search-results" element={<><SearchResultsPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="*" element={<><NotFoundPage /><Footer /></>} />
         <Route path="/ads" element={<><AdsPage /><Footer /></>} />
+        <Route path="/about" element={<><AboutPage /><Footer /></>} />
       </Routes>
     </>
   );

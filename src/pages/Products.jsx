@@ -106,17 +106,17 @@ function ProductsPage({ cart, setCart }) {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className='flex flex-col'>
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Products</h2>
+              <h2 className="text-3xl font-extrabold text-gray-900 mb-8">OUR PRODUCTS</h2>
             </div>
-            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 w-full">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 w-full">
               {/* Flex container for sorting and showing results */}
               <div className="flex w-full justify-between items-center">
                 <div className="relative">
                   <button
-                    className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 justify-center"
+                    className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 justify-center text-gray-800 font-medium"
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
-                    <FaSortAmountDown className="mr-2" /> Sort by
+                    <FaSortAmountDown className="mr-2" /> SORT BY
                   </button>
                   {isDropdownOpen && (
                     <div ref={dropdownRef} className="absolute bg-white shadow-lg rounded-lg mt-2 z-10">
@@ -136,19 +136,36 @@ function ProductsPage({ cart, setCart }) {
                   )}
                 </div>
                 {/* Showing results text aligned to the right */}
-                <p className="text-gray-700 text-sm md:text-base">Showing {filteredProducts.length} results</p>
+                <p className="text-gray-600 text-sm md:text-base">SHOWING {filteredProducts.length} RESULTS</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {filteredProducts.map((product) => (
-                <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer"
+                <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
                   onClick={() => { handleProductClicked(product) }}>
-                  <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
-                  <div className="flex flex-col flex-grow p-4">
-                    <div className="text-lg font-bold text-gray-900 mb-2">{product.name}</div>
-                    <div className="text-green-700 font-bold mb-4">{product.price} Shnargles</div>
-                    <button
+                  <img src={product.image} alt={product.name} className="w-full h-60 object-cover" />
+                  <div className="flex flex-col items-center  flex-grow p-6">
+                  <div className="text-sm font-bold text-gray-900 mb-3" 
+                    style={{ 
+                      fontFamily: "'Poppins', sans-serif", 
+                      lineHeight: '1.6', 
+                      letterSpacing: '0.5px', 
+                      color: '#2c3e50' 
+                    }}>
+                  {product.name}
+                </div>
+                <div className="text-green-700 font-bold text-sm mb-4" 
+                    style={{ 
+                      fontFamily: "'Poppins', sans-serif", 
+                      fontWeight: '500', 
+                      letterSpacing: '0.3px', 
+                      lineHeight: '1.5',
+                      color: '#27ae60'
+                    }}>
+                  {product.price} Shnargles
+                </div>
+                    {/* <button
                       className={product.quantity <= 0 ?
                         "mt-auto w-full bg-gray-300 text-white py-2 px-4 rounded-md text-center cursor-not-allowed"
                         : "mt-auto w-full bg-green-700 text-white py-2 px-4 rounded-md text-center hover:bg-green-900 transition duration-300 cursor-pointer"}
@@ -156,7 +173,7 @@ function ProductsPage({ cart, setCart }) {
                       onClick={(e) => addToCart(product, e)}
                     >
                       Add to Cart
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}

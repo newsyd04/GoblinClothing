@@ -27,13 +27,13 @@ const AdsPage = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-bold mb-4">Ads Page</h1>
       <ins
-        className="adsbygoogle"
-        style={{ display: 'block', minWidth: '300px', minHeight: '250px' }} // Added minWidth and minHeight
-        data-ad-client="ca-pub-6100986743944878"
-        data-ad-slot="6760060132"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
+  className="adsbygoogle"
+  style={{ display: 'block', minWidth: '300px', minHeight: '250px' }}
+  data-ad-client="ca-pub-6100986743944878" // Your actual client ID
+  data-ad-slot="1234567890" // Replace this with the test ad slot
+  data-ad-format="auto"
+  data-full-width-responsive="true"
+></ins>
     </div>
   );
 };

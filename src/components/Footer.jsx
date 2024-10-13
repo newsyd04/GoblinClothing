@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-green-900 text-green-200 p-6 mt-auto relative z-10">
+    <footer className="bg-green-900 text-green-200 p-6 mt-10 relative z-10">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
         {/* Brand Logo or Name */}
         <div className="mb-4 md:mb-0 text-center md:text-left">
@@ -28,7 +28,7 @@ function Footer() {
         <div className="text-center md:text-right">
           <ul className="flex flex-col md:flex-row md:space-x-6 text-sm">
             <li>
-              <a href="/home" className="hover:text-green-400">
+              <a href="/about" className="hover:text-green-400">
                 About Us
               </a>
             </li>

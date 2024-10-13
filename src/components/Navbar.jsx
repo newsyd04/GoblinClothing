@@ -60,36 +60,36 @@ function Navbar({ cart, setCart }) {
         className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
-        Fashion
+        FASHION
       </Link>
       <Link
         to="/coins"
         className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
-        Coins
+        COINS
       </Link>
       <Link
         to="/amulets"
         className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
-        Amulets
+        AMULETS
       </Link>
       <Link
         to="/scraps"
         className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
         onClick={toggleMenu}
       >
-        Scraps
+        SCRAPS
       </Link>
     </>
   );
 
   return (
     <>
-      <div className="bg-green-600 text-white text-center py-2 font-semibold text-lg tracking-wide">
-        Wear the Goblin today!
+      <div className="bg-green-600 text-white text-center py-1 font-semibold text-sm tracking-wide">
+        WEAR THE GOBLIN TODAY!
       </div>
       {/* Main Navbar */}
       <nav className="bg-white sticky top-0 z-30">
@@ -119,7 +119,7 @@ function Navbar({ cart, setCart }) {
               >
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="SEARCH..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="px-4 py-2 rounded-lg border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -132,7 +132,7 @@ function Navbar({ cart, setCart }) {
 
             {/* Center - Logo (Always Centered) */}
             <div className="absolute inset-x-0 flex justify-center z-10">
-              <Link to="/">
+              <Link to="/home">
                 <div className="flex items-center">
                   <img src={logo} className="h-24 w-auto" alt="Goblin Clothing Logo" />
                 </div>
@@ -142,7 +142,7 @@ function Navbar({ cart, setCart }) {
             {/* Right - Cart Button */}
             <div className="flex items-center ml-auto z-20">
               <Link to="/cart" className="hidden md:block text-black font-bold mx-2">
-                Cart
+                CART
               </Link>
               <button
                 onClick={toggleCart}

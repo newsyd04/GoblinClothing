@@ -27,18 +27,18 @@ function CoinsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className='flex flex-col'>
             <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Our Coins</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-8">OUR COINS</h2>
             </div>
             <div className="flex justify-between items-center mb-6 gap-4">
             <div className="flex space-x-4">
                 <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                <FaFilter className="mr-2" /> Filters
+                <FaFilter className="mr-2" /> FILTERS
                 </button>
                 <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                <FaSortAmountDown className="mr-2" /> Sort by
+                <FaSortAmountDown className="mr-2" /> SORT BY
                 </button>
             </div>
-            <p className="text-gray-700">Showing 1-4 of 4 results</p>
+            <p className="text-gray-700">SHOWING 12 RESULTS</p>
             </div>
         </div>
         {/* Products Grid */}
