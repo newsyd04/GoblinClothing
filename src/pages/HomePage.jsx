@@ -63,6 +63,7 @@ const HomePage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
 
   // Detect screen size to enable carousel mode on mobile only
   useEffect(() => {
@@ -79,16 +80,24 @@ const HomePage = () => {
   };
 
   const handleTouchMove = (e) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    if (touchStartX - touchEndX > 50) {
+    setTouchEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    const touchDifference = touchStartX - touchEndX;
+    const swipeThreshold = 50; // Minimum swipe distance to trigger slide
+
+    if (touchDifference > swipeThreshold) {
+      // Swiped left
       setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
-    }
-    if (touchStartX - touchEndX < -50) {
+    } else if (touchDifference < -swipeThreshold) {
+      // Swiped right
       setCurrentIndex((prevIndex) =>
         prevIndex === 0 ? categories.length - 1 : prevIndex - 1
       );
     }
   };
+
 
   return (
     <>
@@ -165,6 +174,7 @@ const HomePage = () => {
       </div>
 
       {/* Shop by Category Section */}
+      {/* Shop by Category Section */}
       <div className="container mx-auto p-8 pb-24 bg-slate-950">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-center text-white">SHOP BY CATEGORY</h2>
 
@@ -176,6 +186,7 @@ const HomePage = () => {
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               {categories.map((category, index) => (
                 <Link
