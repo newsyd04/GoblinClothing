@@ -53,6 +53,43 @@ const HomePage = () => {
     });
   };
 
+  const categories = [
+    { image: goblin1, title: 'FASHION', link: '/products' },
+    { image: coins, title: 'COINS', link: '/coins' },
+    { image: amulet, title: 'AMULETS', link: '/amulets' },
+    { image: scrap, title: 'SCRAPS', link: '/scraps' },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchStartX, setTouchStartX] = useState(0);
+
+  // Detect screen size to enable carousel mode on mobile only
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+    handleResize(); // Check on initial render
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % categories.length);
+    }
+    if (touchStartX - touchEndX < -50) {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? categories.length - 1 : prevIndex - 1
+      );
+    }
+  };
+
   return (
     <>
       {/* Header Image / Goblin Slideshow */}
@@ -130,51 +167,64 @@ const HomePage = () => {
       {/* Shop by Category Section */}
       <div className="container mx-auto p-8 pb-24 bg-slate-950">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-center text-white">SHOP BY CATEGORY</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {/* Category: Fashion */}
-          <Link to="/products" className="relative group bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={goblin1} className="w-full h-64 object-cover" alt="Fashion" />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <h3 className="text-lg sm:text-xl font-bold text-white">FASHION</h3>
-              <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                SHOP NOW
-              </button>
-            </div>
-          </Link>
-          
-          {/* Category: Coins */}
-          <Link to="/coins" className="relative group bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={coins} className="w-full h-64 object-cover" alt="Coats & Jackets" />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <h3 className="text-lg sm:text-xl font-bold text-white">COINS</h3>
-              <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                SHOP NOW
-              </button>
-            </div>
-          </Link>
 
-          {/* Category: Amulets */}
-          <Link to="/amulets" className="relative group bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={amulet} className="w-full h-64 object-cover" alt="Sweaters & Hoodies" />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <h3 className="text-lg sm:text-xl font-bold text-white">AMULETS</h3>
-              <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                SHOP NOW
-              </button>
+        {/* Show grid on desktop, carousel on mobile */}
+        {isMobile ? (
+          <div className="relative overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+            >
+              {categories.map((category, index) => (
+                <Link
+                  to={category.link}
+                  key={index}
+                  className="min-w-full flex-shrink-0 relative group bg-white shadow-lg rounded-lg overflow-hidden"
+                >
+                  <img src={category.image} className="w-full h-64 object-cover" alt={category.title} />
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{category.title}</h3>
+                    <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
+                      SHOP NOW
+                    </button>
+                  </div>
+                </Link>
+              ))}
             </div>
-          </Link>
 
-          {/* Category: Scraps */}
-          <Link to="/scraps" className="relative group bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={scrap} className="w-full h-64 object-cover" alt="Scraps" />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <h3 className="text-lg sm:text-xl font-bold text-white">SCRAPS</h3>
-              <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                SHOP NOW
-              </button>
+            {/* Indicators (Dots) */}
+            <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">
+              {categories.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full mx-1 ${
+                    index === currentIndex ? 'bg-white' : 'bg-gray-400'
+                  }`}
+                ></div>
+              ))}
             </div>
-          </Link>
-        </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {categories.map((category, index) => (
+              <Link
+                to={category.link}
+                key={index}
+                className="relative group bg-white shadow-lg rounded-lg overflow-hidden"
+              >
+                <img src={category.image} className="w-full h-64 object-cover" alt={category.title} />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <h3 className="text-lg sm:text-xl font-bold text-white">{category.title}</h3>
+                  <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
+                    SHOP NOW
+                  </button>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
