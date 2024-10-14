@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FaFilter, FaSortAmountDown } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import Toast from '../components/Toast';
 
@@ -9,6 +10,7 @@ function SearchResultsPage({ cart, setCart }) {
   const [filteredProducts, setFilteredProducts] = useState([]); // Store filtered products
   const [sortOption, setSortOption] = useState('lowToHigh'); // Sort option state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Dropdown state
+  const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const location = useLocation();
@@ -56,6 +58,20 @@ function SearchResultsPage({ cart, setCart }) {
 
     setFilteredProducts(results); // Update filtered products state
   }, [searchQuery, allProducts, sortOption]); // Re-run this filter when searchQuery, allProducts, or sortOption change
+
+  function handleProductClicked(product) {
+    navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`,
+      {
+        state: {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+          quantity: product.quantity
+        }
+      });
+  }
 
   const addToCart = (product) => {
     const existingProduct = cart.find(item => item.productId === product._id);
@@ -130,18 +146,35 @@ function SearchResultsPage({ cart, setCart }) {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {filteredProducts.map((product) => (
-                  <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full">
-                    <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
-                    <div className="flex flex-col flex-grow p-4">
-                      <div className="text-lg font-bold text-gray-900 mb-2">{product.name}</div>
-                      <div className="text-gray-700 mb-4 flex-grow">{product.description}</div>
-                      <div className="text-green-700 font-bold mb-4">{product.price} Shnargles</div>
-                      <div
+                  <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
+                  onClick={() => { handleProductClicked(product) }}>
+                    <img src={product.image} alt={product.name} className="w-full h-60 object-cover" />
+                    <div className="flex flex-col items-center  flex-grow p-6">
+                      <div className="text-sm font-bold text-gray-900 mb-3" 
+                      style={{ 
+                        fontFamily: "'Poppins', sans-serif", 
+                        lineHeight: '1.6', 
+                        letterSpacing: '0.5px', 
+                        color: '#2c3e50' 
+                      }}>
+                    {product.name}
+                    </div>
+                      <div className="text-green-700 font-bold text-sm mb-4" 
+                          style={{ 
+                            fontFamily: "'Poppins', sans-serif", 
+                            fontWeight: '500', 
+                            letterSpacing: '0.3px', 
+                            lineHeight: '1.5',
+                            color: '#27ae60'
+                          }}>
+                        {product.price} Shnargles
+                      </div>
+                      {/* <div
                         className="mt-auto w-full bg-green-900 text-white py-2 px-4 rounded-md text-center hover:bg-green-700 transition duration-300 cursor-pointer"
                         onClick={() => addToCart(product)}
                       >
                         Add to Cart
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))}

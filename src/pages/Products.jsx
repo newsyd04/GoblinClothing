@@ -151,25 +151,25 @@ function ProductsPage({ cart, setCart }) {
                   onClick={() => { handleProductClicked(product) }}>
                   <img src={product.image} alt={product.name} className="w-full h-60 object-cover" />
                   <div className="flex flex-col items-center  flex-grow p-6">
-                  <div className="text-sm font-bold text-gray-900 mb-3" 
-                    style={{ 
-                      fontFamily: "'Poppins', sans-serif", 
-                      lineHeight: '1.6', 
-                      letterSpacing: '0.5px', 
-                      color: '#2c3e50' 
-                    }}>
-                  {product.name}
-                </div>
-                <div className="text-green-700 font-bold text-sm mb-4" 
-                    style={{ 
-                      fontFamily: "'Poppins', sans-serif", 
-                      fontWeight: '500', 
-                      letterSpacing: '0.3px', 
-                      lineHeight: '1.5',
-                      color: '#27ae60'
-                    }}>
-                  {product.price} Shnargles
-                </div>
+                    <div className="text-sm font-bold text-gray-900 mb-3" 
+                      style={{ 
+                        fontFamily: "'Poppins', sans-serif", 
+                        lineHeight: '1.6', 
+                        letterSpacing: '0.5px', 
+                        color: '#2c3e50' 
+                      }}>
+                    {product.name}
+                    </div>
+                    <div className="text-green-700 font-bold text-sm mb-4" 
+                        style={{ 
+                          fontFamily: "'Poppins', sans-serif", 
+                          fontWeight: '500', 
+                          letterSpacing: '0.3px', 
+                          lineHeight: '1.5',
+                          color: '#27ae60'
+                        }}>
+                      {product.price} Shnargles
+                    </div>
                     {/* <button
                       className={product.quantity <= 0 ?
                         "mt-auto w-full bg-gray-300 text-white py-2 px-4 rounded-md text-center cursor-not-allowed"
