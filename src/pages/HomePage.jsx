@@ -126,7 +126,7 @@ const HomePage = () => {
           </div>
           <div 
             className="text-white text-lg sm:text-2xl lg:text-3xl text-center mt-2 px-4 font-extrabold"
-            style={{ fontFamily: "'Bobby Jones', cursive" }}
+            style={{ fontFamily: "'Bebas Neue'" }}
           >
             - WEAR THE MISCHIEF TODAY -
           </div>
