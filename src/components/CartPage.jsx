@@ -27,6 +27,11 @@ function CartPage({ cart, setCart }) {
     fetchCartProducts();
   }, [cart]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Your Cart - Goblin Clothing';
+  }, []);
+
   const handleQuantityChange = (productId, quantity) => {
     setCart(prevCart =>
       prevCart.map(item =>

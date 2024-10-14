@@ -98,6 +98,11 @@ function ProductsPage({ cart, setCart }) {
     };
   }, [dropdownRef]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Fashion - Goblin Clothing';
+  }, []);
+
   return (
     <>
       <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />

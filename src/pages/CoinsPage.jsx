@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FaFilter, FaSortAmountDown, FaShoppingCart, FaStar } from 'react-icons/fa';
 import coinImage1 from '../assets/Coins1.png';
 import coinImage2 from '../assets/Coins2.png';
@@ -20,6 +20,11 @@ function CoinsPage() {
     { id: 3, name: 'Bronze Coin', price: '$19.99', image: coinImage3, rating: 3 },
     { id: 4, name: 'Platinum Coin', price: '$199.99', image: coinImage4, rating: 5 },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Coins - Goblin Clothing';
+  }, []);
 
   return (
     <div className="bg-gray-100 min-h-screen">

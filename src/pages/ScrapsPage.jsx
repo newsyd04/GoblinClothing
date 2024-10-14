@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FaFilter, FaSortAmountDown } from 'react-icons/fa'; // Importing icons
 import SeeAlsoComponent from '../components/SeeAlsoComponent';
 
@@ -9,6 +9,11 @@ function ScrapsPage() {
     { id: 3, name: 'Forgotten Scrap', price: '$7.99', image: 'https://via.placeholder.com/200x200', description: 'A scrap from a long-forgotten manuscript.' },
     { id: 4, name: 'Enchanted Scrap', price: '$19.99', image: 'https://via.placeholder.com/200x200', description: 'A magical scrap with unknown powers.' },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Scraps - Goblin Clothing';
+  }, []);
 
   return (
     <>

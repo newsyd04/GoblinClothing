@@ -28,6 +28,11 @@ function SearchResultsPage({ cart, setCart }) {
   }, []); // Fetch once on component mount
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Search results for: ' + searchQuery + ' - Goblin Clothing';
+  }, [searchQuery]);
+
+  useEffect(() => {
     // Filter and sort products on the frontend based on the search query
     let results = allProducts;
 

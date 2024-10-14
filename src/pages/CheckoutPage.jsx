@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import CheckoutForm from '../components/CheckoutForm';
 
 function CheckoutPage() {
   const location = useLocation();
   const { cartProducts, total } = location.state || {}; // Access total directly
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Checkout - Goblin Clothing';
+  }, []);
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">

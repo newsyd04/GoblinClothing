@@ -39,6 +39,11 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Goblin Clothing';
+  }, []);
+
   // Handle product click to navigate to product page
   const handleProductClicked = (product) => {
     navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`, {

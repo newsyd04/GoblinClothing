@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function ConfirmationPage() {
@@ -7,6 +8,11 @@ function ConfirmationPage() {
   const handleContinueShopping = () => {
     navigate('/products'); // Navigate to products or home page
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Purchase Confirmation - Goblin Clothing';
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

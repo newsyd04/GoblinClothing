@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FaFilter, FaSortAmountDown } from 'react-icons/fa'; // Importing icons
 import SeeAlsoComponent from '../components/SeeAlsoComponent';
 
@@ -9,6 +9,11 @@ function AmuletsPage() {
     { id: 3, name: 'Silver Amulet', price: '$59.99', image: 'https://via.placeholder.com/200x200', description: 'An elegant amulet made from silver.' },
     { id: 4, name: 'Enchanted Amulet', price: '$99.99', image: 'https://via.placeholder.com/200x200', description: 'An amulet infused with ancient enchantments.' },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Amulets - Goblin Clothing';
+  }, []);
 
   return (
     <>

@@ -18,6 +18,11 @@ const AboutPage = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'About - Goblin Clothing';
+  }, []);
+
   return (
     <>
       <div className="relative overflow-hidden h-64 sm:h-96 md:h-[28rem] lg:h-[38rem] flex justify-center items-center bg-black">
@@ -42,8 +47,11 @@ const AboutPage = () => {
           >
             Embrace Your Goblin Nature:
           </div>
-          <div className="text-white text-lg sm:text-2xl lg:text-3xl text-center mt-2 px-4">
-            Wear the Mischief Today
+          <div 
+            className="text-white text-lg sm:text-2xl lg:text-3xl text-center mt-2 px-4 font-extrabold"
+            style={{ fontFamily: "'Bebas Neue'" }}
+          >
+            - WEAR THE MISCHIEF TODAY -
           </div>
         </div>
       </div>

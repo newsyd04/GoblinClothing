@@ -1,4 +1,10 @@
+import React, {useEffect} from 'react';
+
 function NotFoundPage() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.title = '404 - Page Not Found';
+      }, []);
     return (
         <section className="bg-white min-h-screen flex items-center justify-center">
             <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">

@@ -88,8 +88,13 @@ function Navbar({ cart, setCart }) {
 
   return (
     <>
-      <div className="bg-green-600 text-white text-center py-1 font-semibold text-sm tracking-wide">
-        WEAR THE GOBLIN TODAY!
+      <div className="bg-green-600 text-center py-1 ">
+        <div 
+            className="text-white text-lg sm:text-sm lg:text-lg text-center px-4 -tracking-tighter font-extrabold"
+            style={{ fontFamily: "'Bebas Neue'" }}
+          >
+            - WEAR THE MISCHIEF TODAY -
+          </div>
       </div>
       {/* Main Navbar */}
       <nav className="bg-white sticky top-0 z-30">
