@@ -244,8 +244,8 @@ function Navbar({ cart, setCart }) {
             {cart.length > 0 ? (
               <ul>
                 {cart.map(item => (
-                  <li key={item.productId} className="flex justify-between items-center text-sm mb-2">
-                    <span>{item.name} (x{item.quantity})</span>
+                  <li key={item.size ? item.productId + item.size : item.productId} className="flex justify-between items-center text-sm mb-2">
+                    <span>{item.name} {item.size ? item.size : ''} (x{item.quantity})</span>
                     <div className="flex items-center space-x-2">
                       <span>{item.price}</span>
                       <button

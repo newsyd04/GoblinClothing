@@ -18,7 +18,7 @@ function CheckoutPage() {
           <ul className="mb-6">
             {cartProducts.map(item => (
               <li key={item.productId} className="flex justify-between text-sm text-gray-700 mb-2">
-                <span>{item.name} (x{item.quantity})</span>
+                <span>{item.name} {item.size ? item.size : ''} (x{item.quantity})</span>
                 <span>{(item.price * item.quantity).toFixed(2)} Shnargles</span>
               </li>
             ))}

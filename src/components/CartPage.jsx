@@ -17,7 +17,11 @@ function CartPage({ cart, setCart }) {
       try {
         const productIds = cart.map(item => item.productId);
         if (productIds.length > 0) {
-          const response = await api.post('/products/bulk', { ids: productIds });
+          const correctId = productIds.map(id => id.substring(0, 24));
+          const response = await api.post('/products/bulk', { ids: correctId });
+          console.log('Product IDs:', productIds);
+          console.log('Correct ID:', correctId);
+          console.log('Response:', response);
           setCartProducts(response.data);
         }
       } catch (error) {
@@ -50,7 +54,7 @@ function CartPage({ cart, setCart }) {
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
-      const product = cartProducts.find(p => p._id === item.productId);
+      const product = cartProducts.find(p => p._id === item.productId.substring(0, 24));
       return total + (product ? Number(product.price) * Number(item.quantity) : 0);
     }, 0).toFixed(2);
   };
@@ -77,46 +81,93 @@ function CartPage({ cart, setCart }) {
           <div>
             <ul>
               {cart.map(item => {
-                const product = cartProducts.find(p => p._id === item.productId);
-                return (
-                  <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow-md rounded-lg">
-                    {product && (
-                      <>
-                        <div className="flex items-center">
-                          <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg" />
-                          <div className="ml-4">
-                            <h2 className="text-lg font-bold">{product.name}</h2>
-                            <p className="text-gray-600">{product.price} Shnargles</p>
+                if (item.size) {
+                  const product = cartProducts.find(p => p._id === item.productId.substring(0, 24));
+                  const itemInCart = cart.find(i => i.productId === item.productId);
+                  console.log('Product:', product);
+                  console.log('Cart Products:', cartProducts);
+                  console.log('Item in Cart:', itemInCart);
+                  console.log(item.productId);
+                  return (
+                    <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow-md rounded-lg">
+                      {itemInCart && product && (
+                        <>
+                          <div className="flex items-center">
+                            <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg" />
+                            <div className="ml-4">
+                              <h2 className="text-lg font-bold">{product.name}</h2>
+                              <p className="text-gray-600">Size: {item.size}</p>
+                              <p className="text-gray-600">{product.price} Shnargles</p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                              >
+                                <FaMinus />
+                              </button>
+                              <span className="text-lg font-bold px-4">{item.quantity}</span>
+                              <button
+                                className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                              >
+                                <FaPlus />
+                              </button>
+                            </div>
                             <button
-                              className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
-                              onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                              className="text-red-600 hover:text-red-800 font-bold"
+                              onClick={() => handleRemove(item.productId)}
                             >
-                              <FaMinus />
-                            </button>
-                            <span className="text-lg font-bold px-4">{item.quantity}</span>
-                            <button
-                              className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
-                              onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
-                            >
-                              <FaPlus />
+                              <FaTrashAlt />
                             </button>
                           </div>
-                          <button
-                            className="text-red-600 hover:text-red-800 font-bold"
-                            onClick={() => handleRemove(item.productId)}
-                          >
-                            <FaTrashAlt />
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </li>
-                );
-              })}
+                        </>
+                      )}
+                    </li>
+                  );
+                } else {
+                  const product = cartProducts.find(p => p._id === item.productId);
+                  return (
+                    <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow-md rounded-lg">
+                      {product && (
+                        <>
+                          <div className="flex items-center">
+                            <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg" />
+                            <div className="ml-4">
+                              <h2 className="text-lg font-bold">{product.name}</h2>
+                              <p className="text-gray-600">{product.price} Shnargles</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                              >
+                                <FaMinus />
+                              </button>
+                              <span className="text-lg font-bold px-4">{item.quantity}</span>
+                              <button
+                                className="bg-gray-400 text-white p-2 rounded-full shadow-md hover:bg-gray-500 transition duration-200 focus:outline-none"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                              >
+                                <FaPlus />
+                              </button>
+                            </div>
+                            <button
+                              className="text-red-600 hover:text-red-800 font-bold"
+                              onClick={() => handleRemove(item.productId)}
+                            >
+                              <FaTrashAlt />
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </li>
+                  );
+              }})}
             </ul>
             <div className="text-right text-lg font-bold mt-8">
               Total: {calculateTotal()} Shnargles

@@ -4,9 +4,12 @@ import Toast from '../components/Toast';
 
 function ItemPage({ cart, setCart }) {
     const { state } = useLocation();
-    const { id, name, price, image, description, quantity } = state;
+    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity } = state;
+    console.log('ItemPage state:', state);
+    const [selectedSize, setSelectedSize] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const hasSizes = largeQuantity || mediumQuantity || smallQuantity || xlQuantity;
 
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
@@ -21,27 +24,83 @@ function ItemPage({ cart, setCart }) {
         } else if (type === 'decrement' && selectedQuantity > 1) {
             setSelectedQuantity(selectedQuantity - 1);
         }
+        console.log('Stuff: ', id, name, price, image, description, quantity);
+        console.log('Quantities: ', largeQuantity, mediumQuantity, smallQuantity, xlQuantity);
     };
 
     const addToCart = () => {
-        const existingProduct = cart.find(item => item.productId === id);
+        if (hasSizes || !selectedSize) {
+            setToastMessage('Please select a size.');
+            setShowToast(true);
+            return;
+        }
+
+        if (selectedQuantity > quantity) {
+            setToastMessage('Not enough stock.');
+            setShowToast(true);
+            return;
+        }
+        console.log('small quantity: ', smallQuantity);
+
+        if (selectedSize) {
+            switch (selectedSize) {
+                case 'SM':
+                    if (selectedQuantity > smallQuantity) {
+                        setToastMessage('Not enough stock.');
+                        setShowToast(true);
+                        return;
+                    }
+                    break;
+                case 'MD':
+                    if (selectedQuantity > mediumQuantity) {
+                        setToastMessage('Not enough stock.');
+                        setShowToast(true);
+                        return;
+                    }
+                    break;
+                case 'LG':
+                    if (selectedQuantity > largeQuantity) {
+                        setToastMessage('Not enough stock.');
+                        setShowToast(true);
+                        return;
+                    }
+                    break;
+                case 'XL':
+                    if (selectedQuantity > xlQuantity) {
+                        setToastMessage('Not enough stock.');
+                        setShowToast(true);
+                        return;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // should be hasSizes check instead of selectedSize later
+        const existingProduct = selectedSize ? 
+            cart.find(item => item.productId === (id + selectedSize) && item.size === selectedSize) 
+            : cart.find(item => item.productId === id);
         if (existingProduct) {
           setCart(prevCart =>
             prevCart.map(item =>
-              item.productId === id
+                (item.productId === id || item.productId === id + selectedSize) && (!selectedSize || item.size === selectedSize)
                 ? { ...item, quantity: item.quantity + selectedQuantity }
                 : item
-            )
+        )
           );
         } else {
-          const newCartItem = {
-            productId: id,
-            name: name,
-            price: price,
-            quantity: selectedQuantity
-          };
-          console.log('Adding new item to cart:', newCartItem); // Log new cart item
-          setCart(prevCart => [...prevCart, newCartItem]);
+            // should be hasSizes check instead of selectedSize later
+            let productId = selectedSize ? id + selectedSize : id;
+            const newCartItem = {
+                productId: productId,
+                name: name,
+                price: price,
+                quantity: selectedQuantity,
+                size: selectedSize || null
+            };
+            console.log('Adding new item to cart:', newCartItem); // Log new cart item
+            setCart(prevCart => [...prevCart, newCartItem]);
         }
         console.log('Updated cart:', cart); // Log entire cart state after addition
         setToastMessage('Item added to cart');
@@ -77,14 +136,19 @@ function ItemPage({ cart, setCart }) {
                     <div className='flex flex-row gap-6'>
                     {quantity > 0 && (
                         <><div className='flex items-start'>
-                                <form class="max-w-sm">
-                                    <label for="sizes" class="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
-                                    <select id="sizes" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                        <option selected></option>
-                                        <option value="US">Small</option>
-                                        <option value="CA">Medium</option>
-                                        <option value="FR">Large</option>
-                                        <option value="DE">Extra-Large</option>
+                                <form className="max-w-sm">
+                                    <label htmlFor="sizes" className="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
+                                    <select 
+                                        id="sizes" 
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        value={selectedSize}
+                                        onChange={(e) => setSelectedSize(e.target.value)}
+                                    >
+                                        <option value></option>
+                                        <option value="SM">Small</option>
+                                        <option value="MD">Medium</option>
+                                        <option value="LG">Large</option>
+                                        <option value="XL">Extra-Large</option>
                                     </select>
                                 </form>
                             </div><div className="mt-6 flex items-center space-x-4">
@@ -112,7 +176,8 @@ function ItemPage({ cart, setCart }) {
                     <div className="mt-6">
                         {quantity > 0 && (
                             <button 
-                                className="w-full bg-green-700 text-white py-3 text-lg font-semibold rounded-lg hover:bg-green-900 transition duration-300"
+                                className={`w-full bg-green-700 text-white py-3 text-lg font-semibold rounded-lg hover:bg-green-900 transition duration-300
+                                    ${selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
                                 onClick={() => addToCart()}
                             >
                                 Add to Cart
