@@ -5,8 +5,24 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const stripePromise = loadStripe('pk_test_51PqYFwCbsRzgWQ8jPHOsRoIrkCXhUb1aiSAIT4GZZVOxj8IRmx9o7v3svcH1nSMSuJY7tJkiX4ttXBD5aHtkvzKN00Krn2Xi92'); // Replace with your actual Stripe publishable key
 
-function CheckoutForm({ cart, total }) {
+function CheckoutForm({ cart, total, email, name, address1, address2, city, county, eircode, country }) {
   const navigate = useNavigate(); // Initialize the useNavigate hook
+
+  const checkoutClicked = () => {
+    let passed = checkCheckout();
+    if (!passed) {
+      return;
+    }
+    handleCheckout();
+  };
+
+  const checkCheckout = () => {
+    if (!email || !name || !address1 || !city || !county || !eircode || !country) {
+      alert('Please fill out all required fields.');
+      return false;
+    }
+    return true;
+  };
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
@@ -40,7 +56,7 @@ function CheckoutForm({ cart, total }) {
 
   return (
     <button
-      onClick={handleCheckout}
+      onClick={checkoutClicked}
       className="mt-4 bg-green-600 text-white py-2 px-4 rounded-md"
     >
       Pay {total} Shnargles
