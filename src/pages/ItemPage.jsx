@@ -29,7 +29,7 @@ function ItemPage({ cart, setCart }) {
     };
 
     const addToCart = () => {
-        if (hasSizes || !selectedSize) {
+        if (!selectedSize) {
             setToastMessage('Please select a size.');
             setShowToast(true);
             return;
@@ -144,7 +144,7 @@ function ItemPage({ cart, setCart }) {
                                         value={selectedSize}
                                         onChange={(e) => setSelectedSize(e.target.value)}
                                     >
-                                        <option value></option>
+                                        <option value=""></option>
                                         <option value="SM">Small</option>
                                         <option value="MD">Medium</option>
                                         <option value="LG">Large</option>
