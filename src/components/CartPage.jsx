@@ -17,11 +17,8 @@ function CartPage({ cart, setCart }) {
       try {
         const productIds = cart.map(item => item.productId);
         if (productIds.length > 0) {
-          const correctId = productIds.map(id => id.substring(0, 24));
-          const response = await api.post('/products/bulk', { ids: correctId });
-          console.log('Product IDs:', productIds);
-          console.log('Correct ID:', correctId);
-          console.log('Response:', response);
+          const response = await api.post('/products/bulk', { ids: productIds });
+          console.log('Fetched Products:', response.data);
           setCartProducts(response.data);
         }
       } catch (error) {
@@ -54,7 +51,7 @@ function CartPage({ cart, setCart }) {
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
-      const product = cartProducts.find(p => p._id === item.productId.substring(0, 24));
+      const product = cartProducts.find(p => p._id === item.productId); // Match directly with _id
       return total + (product ? Number(product.price) * Number(item.quantity) : 0);
     }, 0).toFixed(2);
   };
@@ -128,10 +125,16 @@ function CartPage({ cart, setCart }) {
                     </li>
                   );
                 } else {
-                  const product = cartProducts.find(p => p._id === item.productId);
+                  console.log('Item:', item);
+                  const product = cartProducts.find(p => p._id === item.productId.substring(0, 24));
+                  const itemInCart = cart.find(i => i.productId === item.productId);
+                  console.log('Product:', product);
+                  console.log('Cart Products:', cartProducts);
+                  console.log('Item in Cart:', itemInCart);
+                  console.log(item.productId);
                   return (
                     <li key={item.productId} className="flex justify-between items-center mb-4 p-4 bg-white shadow-md rounded-lg">
-                      {product && (
+                      {itemInCart && product && (
                         <>
                           <div className="flex items-center">
                             <img src={product.image} alt={product.name} className="w-16 h-16 object-cover rounded-lg" />

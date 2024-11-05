@@ -4,7 +4,7 @@ import Toast from '../components/Toast';
 
 function ItemPage({ cart, setCart }) {
     const { state } = useLocation();
-    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity } = state;
+    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type } = state;
     console.log('ItemPage state:', state);
     const [selectedSize, setSelectedSize] = useState('');
     const [showToast, setShowToast] = useState(false);
@@ -29,7 +29,7 @@ function ItemPage({ cart, setCart }) {
     };
 
     const addToCart = () => {
-        if (!selectedSize) {
+        if (type !== 'coin' && !selectedSize) {
             setToastMessage('Please select a size.');
             setShowToast(true);
             return;
@@ -125,7 +125,7 @@ function ItemPage({ cart, setCart }) {
                         <h1 className="text-4xl font-bold text-gray-900 mt-6 mb-3">{name}</h1>
                         <p className="text-gray-700 mb-3">{description}</p>
                         <div className="flex flex-row gap-3">
-                            <p className="text-lg font-semibold text-gray-800 mb-4">${price}</p>
+                            <p className="text-lg font-semibold text-gray-800 mb-4">€{price}</p>
                             <p className={`text-lg font-medium ${quantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
                                 {quantity > 0 ? `Only ${quantity} left!` : "Out of stock"}
                             </p>
@@ -135,7 +135,8 @@ function ItemPage({ cart, setCart }) {
                     <hr className='my-2'/>
                     <div className='flex flex-row gap-6'>
                     {quantity > 0 && (
-                        <><div className='flex items-start'>
+                        <> {type !== 'coin' && (
+                            <div className='flex items-start'>
                                 <form className="max-w-sm">
                                     <label htmlFor="sizes" className="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
                                     <select 
@@ -151,7 +152,10 @@ function ItemPage({ cart, setCart }) {
                                         <option value="XL">Extra-Large</option>
                                     </select>
                                 </form>
-                            </div><div className="mt-6 flex items-center space-x-4">
+                            </div>
+                            )}                        
+                            
+                            <div className="mt-6 flex items-center space-x-4">
                                     <button
                                         className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
                                 ${selectedQuantity === 1 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-900'}`}
@@ -177,8 +181,9 @@ function ItemPage({ cart, setCart }) {
                         {quantity > 0 && (
                             <button 
                                 className={`w-full bg-green-700 text-white py-3 text-lg font-semibold rounded-lg hover:bg-green-900 transition duration-300
-                                    ${selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
+                                    ${type !== 'coin' && selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
                                 onClick={() => addToCart()}
+                                disabled={quantity <= 0 || (type !== 'coin' && selectedSize === '')}
                             >
                                 Add to Cart
                             </button>

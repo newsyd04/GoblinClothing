@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaSortAmountDown } from 'react-icons/fa';
 import api from '../api';
-import Toast from '../components/Toast'; // Import the Toast component
+import Toast from '../components/Toast';
 
 function ProductsPage({ cart, setCart }) {
   const [products, setProducts] = useState([]);
@@ -10,37 +10,39 @@ function ProductsPage({ cart, setCart }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const searchQuery = location.state?.searchQuery || ''; // Extract search query
+  const searchQuery = location.state?.searchQuery || '';
   const navigate = useNavigate();
-  const dropdownRef = useRef(null); // Reference for the dropdown menu
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Send search query to the backend
         const response = await api.get('/products', {
           params: { search: searchQuery },
         });
-        let sortedProducts = response.data;
-
+        console.log('Fetched Products:', response.data); // Log fetched products
+  
+        let filteredProducts = response.data.filter(item => item.type === 'product');
+  
         switch (sortOption) {
           case 'lowToHigh':
-            sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
+            filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
             break;
           case 'highToLow':
-            sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
+            filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
             break;
           default:
             break;
         }
-
-        setProducts(sortedProducts);
+  
+        setProducts(filteredProducts);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
     fetchProducts();
   }, [sortOption, searchQuery]);
+  
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -80,7 +82,8 @@ function ProductsPage({ cart, setCart }) {
           price: product.price,
           image: product.image,
           description: product.description,
-          quantity: product.quantity
+          quantity: product.quantity,
+          type: product.type
         }
       });
   }
