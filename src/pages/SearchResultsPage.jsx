@@ -68,7 +68,8 @@ function SearchResultsPage({ cart, setCart }) {
           price: product.price,
           image: product.image,
           description: product.description,
-          quantity: product.quantity
+          quantity: product.quantity,
+          type: product.type
         }
       });
   }
