@@ -15,9 +15,11 @@ function CartPage({ cart, setCart }) {
   useEffect(() => {
     const fetchCartProducts = async () => {
       try {
-        const productIds = cart.map(item => item.productId);
+        const productIds = cart.map(item => item.productId.substring(0, 24));
         if (productIds.length > 0) {
+          console.log('Product IDs:', productIds);
           const response = await api.post('/products/bulk', { ids: productIds });
+          console.log('rip', response);
           console.log('Fetched Products:', response.data);
           setCartProducts(response.data);
         }
@@ -51,7 +53,7 @@ function CartPage({ cart, setCart }) {
 
   const calculateTotal = () => {
     return cart.reduce((total, item) => {
-      const product = cartProducts.find(p => p._id === item.productId); // Match directly with _id
+      const product = cartProducts.find(p => p._id === item.productId.substring(0, 24)); // Match directly with _id
       return total + (product ? Number(product.price) * Number(item.quantity) : 0);
     }, 0).toFixed(2);
   };
@@ -79,7 +81,11 @@ function CartPage({ cart, setCart }) {
             <ul>
               {cart.map(item => {
                 if (item.size) {
+                  console.log("cart", cartProducts);
+                  console.log("item id", item.productId);
+                  console.log("item", item.productId.substring(0, 24));
                   const product = cartProducts.find(p => p._id === item.productId.substring(0, 24));
+
                   const itemInCart = cart.find(i => i.productId === item.productId);
                   console.log('Product:', product);
                   console.log('Cart Products:', cartProducts);
