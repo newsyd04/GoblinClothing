@@ -1,14 +1,84 @@
-import React, {useEffect} from 'react';
-import { FaFilter, FaSortAmountDown } from 'react-icons/fa'; // Importing icons
-import SeeAlsoComponent from '../components/SeeAlsoComponent';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaSortAmountDown, FaStar } from 'react-icons/fa';
+import api from '../api';
+import Toast from '../components/Toast';
+import { SiZabka } from 'react-icons/si';
 
-function ScrapsPage() {
-  const scraps = [
-    { id: 1, name: 'Ancient Scrap', price: '$9.99', image: 'https://via.placeholder.com/200x200', description: 'A fragment from an ancient artifact.' },
-    { id: 2, name: 'Mysterious Scrap', price: '$14.99', image: 'https://via.placeholder.com/200x200', description: 'A piece of a mysterious document.' },
-    { id: 3, name: 'Forgotten Scrap', price: '$7.99', image: 'https://via.placeholder.com/200x200', description: 'A scrap from a long-forgotten manuscript.' },
-    { id: 4, name: 'Enchanted Scrap', price: '$19.99', image: 'https://via.placeholder.com/200x200', description: 'A magical scrap with unknown powers.' },
-  ];
+function ScrapsPage({ cart, setCart }) {
+  const [Scraps, setScraps] = useState([]);
+  const [sortOption, setSortOption] = useState('lowToHigh');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchQuery = location.state?.searchQuery || '';
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get('/products');
+        console.log('Fetched Products:', response.data); // Log fetched products
+  
+        // Filter for items of type 'amulet'
+        let filteredScraps = response.data.filter(item => item.type === 'scrap');
+  
+        // Sort Scraps based on the selected sort option
+        if (sortOption === 'lowToHigh') {
+          filteredScraps = filteredScraps.sort((a, b) => a.price - b.price);
+        } else if (sortOption === 'highToLow') {
+          filteredScraps = filteredScraps.sort((a, b) => b.price - a.price);
+        }
+  
+        setScraps(filteredScraps);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchProducts();
+  }, [sortOption]); // Re-fetch when sortOption changes  
+
+  const addToCart = (coin, e) => {
+    e.stopPropagation();
+
+    const existingProduct = cart.find(item => item.productId === coin._id);
+
+    if (existingProduct) {
+      setCart(prevCart =>
+        prevCart.map(item =>
+          item.productId === coin._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      const newCartItem = {
+        productId: coin._id,
+        name: coin.name,
+        price: coin.price,
+        quantity: 1,
+        size: null, 
+      };
+      setCart(prevCart => [...prevCart, newCartItem]);
+    }
+    setToastMessage('Scrap added to cart');
+    setShowToast(true);
+  };
+
+  const handleCoinClicked = (coin) => {
+    navigate(`/products/${coin.name.replace(/\s+/g, '-').toLowerCase()}`, {
+      state: {
+        id: coin._id,
+        name: coin.name,
+        price: coin.price,
+        image: coin.image,
+        description: coin.description,
+        quantity: coin.quantity,
+        type: coin.type,
+      },
+    });
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,43 +87,68 @@ function ScrapsPage() {
 
   return (
     <>
+      <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
       <div className="min-h-screen bg-gray-100">
-        {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex flex-col">
-            <div>
-              <h2 className="text-3xl font-extrabold text-gray-900 mb-8">OUR SCRAPS</h2>
-            </div>
-            <div className="flex justify-between items-center mb-6 gap-4">
-              <div className="flex space-x-4">
-                <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                  <FaFilter className="mr-2" /> FILTERS
-                </button>
-                <button className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200">
-                  <FaSortAmountDown className="mr-2" /> SORT BY
-                </button>
-              </div>
-              <p className="text-gray-700">SHOWING 4 RESULTS</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {scraps.map((scrap) => (
-              <div key={scrap.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img src={scrap.image} alt={scrap.name} className="w-full h-56 object-cover" />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900">{scrap.name}</h3>
-                  <p className="text-gray-700">{scrap.description}</p>
-                  <p className="text-green-700 font-bold mt-2">{scrap.price}</p>
-                  <button className="mt-4 w-full bg-green-900 text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-300">
-                    Add to Cart
-                  </button>
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-8">OUR SCRAPS</h2>
+          <div className="flex justify-between items-center mb-6 gap-4">
+            <div className="relative">
+              <button
+                className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <FaSortAmountDown className="mr-2" /> SORT BY
+              </button>
+              {isDropdownOpen && (
+                <div ref={dropdownRef} className="absolute bg-white shadow-lg rounded-lg mt-2 z-10">
+                  <div
+                    className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    onClick={() => { setSortOption('lowToHigh'); setIsDropdownOpen(false); }}
+                  >
+                    Price low to high
+                  </div>
+                  <div
+                    className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                    onClick={() => { setSortOption('highToLow'); setIsDropdownOpen(false); }}
+                  >
+                    Price high to low
+                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
+            <p className="text-gray-700">SHOWING {Scraps.length} RESULTS</p>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {Scraps.map((product) => (
+                <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
+                  onClick={() => { handleCoinClicked(product) }}>
+                  <img src={product.image} alt={product.name} className="w-full h-60 object-cover" />
+                  <div className="flex flex-col items-center  flex-grow p-6">
+                    <div className="text-sm font-bold text-gray-900 mb-3" 
+                      style={{ 
+                        fontFamily: "'Poppins', sans-serif", 
+                        lineHeight: '1.6', 
+                        letterSpacing: '0.5px', 
+                        color: '#2c3e50' 
+                      }}>
+                    {product.name}
+                    </div>
+                    <div className="text-green-700 font-bold text-sm mb-4" 
+                        style={{ 
+                          fontFamily: "'Poppins', sans-serif", 
+                          fontWeight: '500', 
+                          letterSpacing: '0.3px', 
+                          lineHeight: '1.5',
+                          color: '#27ae60'
+                        }}>
+                      {product.price} Shnargles
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
         </main>
       </div>
-      <SeeAlsoComponent /> {/* Make sure this component is correctly imported and working */}
     </>
   );
 }

@@ -80,6 +80,11 @@ function CoinsPage({ cart, setCart }) {
     });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'Coins - Goblin Clothing';
+  }, []);
+
   return (
     <>
       <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
