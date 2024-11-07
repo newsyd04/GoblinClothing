@@ -83,7 +83,8 @@ function ProductsPage({ cart, setCart }) {
           image: product.image,
           description: product.description,
           quantity: product.quantity,
-          type: product.type
+          type: product.type,
+          isSizeable: product.isSizeable
         }
       });
   }

@@ -4,7 +4,7 @@ import Toast from '../components/Toast';
 
 function ItemPage({ cart, setCart }) {
     const { state } = useLocation();
-    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type } = state;
+    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type, isSizeable } = state;
     console.log('ItemPage state:', state);
     const [selectedSize, setSelectedSize] = useState('');
     const [showToast, setShowToast] = useState(false);
@@ -29,7 +29,8 @@ function ItemPage({ cart, setCart }) {
     };
 
     const addToCart = () => {
-        if (type !== 'coin' && !selectedSize) {
+        // isSizeable is a boolean value
+        if (isSizeable !== false && !selectedSize) {
             setToastMessage('Please select a size.');
             setShowToast(true);
             return;
@@ -135,7 +136,7 @@ function ItemPage({ cart, setCart }) {
                     <hr className='my-2'/>
                     <div className='flex flex-row gap-6'>
                     {quantity > 0 && (
-                        <> {type !== 'coin' && (
+                        <> {isSizeable !== false && (
                             <div className='flex items-start'>
                                 <form className="max-w-sm">
                                     <label htmlFor="sizes" className="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
@@ -181,9 +182,9 @@ function ItemPage({ cart, setCart }) {
                         {quantity > 0 && (
                             <button 
                                 className={`w-full bg-green-700 text-white py-3 text-lg font-semibold rounded-lg hover:bg-green-900 transition duration-300
-                                    ${type !== 'coin' && selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
+                                    ${isSizeable !== false && selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
                                 onClick={() => addToCart()}
-                                disabled={quantity <= 0 || (type !== 'coin' && selectedSize === '')}
+                                disabled={quantity <= 0 || (isSizeable !== false && selectedSize === '')}
                             >
                                 Add to Cart
                             </button>

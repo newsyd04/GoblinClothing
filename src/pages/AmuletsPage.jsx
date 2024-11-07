@@ -76,6 +76,7 @@ function AmuletsPage({ cart, setCart }) {
         description: coin.description,
         quantity: coin.quantity,
         type: coin.type,
+        isSizeable: coin.isSizeable,
       },
     });
   };
