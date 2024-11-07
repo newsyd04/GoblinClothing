@@ -97,7 +97,7 @@ function ItemPage({ cart, setCart }) {
                 name: name,
                 price: price,
                 quantity: selectedQuantity,
-                size: selectedSize || null
+                size: selectedSize || "Baller Alert"
             };
             console.log('Adding new item to cart:', newCartItem); // Log new cart item
             setCart(prevCart => [...prevCart, newCartItem]);
