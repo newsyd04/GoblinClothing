@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import Toast from './Toast';
 
-const stripePromise = loadStripe('pk_test_51PqYFwCbsRzgWQ8jPHOsRoIrkCXhUb1aiSAIT4GZZVOxj8IRmx9o7v3svcH1nSMSuJY7tJkiX4ttXBD5aHtkvzKN00Krn2Xi92'); // Replace with your actual Stripe publishable key
+const stripePromise = loadStripe('pk_live_51PqYFwCbsRzgWQ8j6jCcU36X5qNDxMbjHzigJI2hRWJKdUJFnZ65cn9iuYJAzmKyUEPbAB7wNQXfDn7fPbSjyeqc00UxgoTX7O'); // Replace with your actual Stripe publishable key
 
 function CheckoutForm({ cart, total, email, name, address1, address2, city, county, eircode, country }) {
   const navigate = useNavigate(); // Initialize the useNavigate hook
