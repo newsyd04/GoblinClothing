@@ -30,6 +30,8 @@ function ItemPage({ cart, setCart }) {
 
     const addToCart = () => {
         // isSizeable is a boolean value
+        console.log("isSizable: ", isSizeable);
+        console.log("mediumQuantity: ", mediumQuantity);
         if (isSizeable !== false && !selectedSize) {
             setToastMessage('Please select a size.');
             setShowToast(true);
@@ -43,31 +45,35 @@ function ItemPage({ cart, setCart }) {
         }
         console.log('small quantity: ', smallQuantity);
 
+        let currentItem = cart.find(item => item.productId === id + selectedSize && item.size === selectedSize);
+        let currentQuantity = currentItem ? currentItem.quantity : 0;
+        console.log('Current item: ', currentItem);
+        console.log('Current quantity: ', currentQuantity);
         if (selectedSize) {
             switch (selectedSize) {
                 case 'SM':
-                    if (selectedQuantity > smallQuantity) {
+                    if (selectedQuantity > smallQuantity || currentQuantity + selectedQuantity > smallQuantity) {
                         setToastMessage('Not enough stock.');
                         setShowToast(true);
                         return;
                     }
                     break;
                 case 'MD':
-                    if (selectedQuantity > mediumQuantity) {
+                    if (selectedQuantity > mediumQuantity || currentQuantity + selectedQuantity > mediumQuantity) {
                         setToastMessage('Not enough stock.');
                         setShowToast(true);
                         return;
                     }
                     break;
                 case 'LG':
-                    if (selectedQuantity > largeQuantity) {
+                    if (selectedQuantity > largeQuantity || currentQuantity + selectedQuantity > largeQuantity) {
                         setToastMessage('Not enough stock.');
                         setShowToast(true);
                         return;
                     }
                     break;
                 case 'XL':
-                    if (selectedQuantity > xlQuantity) {
+                    if (selectedQuantity > xlQuantity || currentQuantity + selectedQuantity > xlQuantity) {
                         setToastMessage('Not enough stock.');
                         setShowToast(true);
                         return;

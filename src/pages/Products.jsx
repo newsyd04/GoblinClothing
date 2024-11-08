@@ -75,6 +75,22 @@ function ProductsPage({ cart, setCart }) {
 
   function handleProductClicked(product) {
     navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`,
+      product.isSizeable ? ({
+        state: {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+          quantity: product.quantity,
+          type: product.type,
+          isSizeable: product.isSizeable,
+          smallQuantity: product.smallQuantity,
+          mediumQuantity: product.mediumQuantity,
+          largeQuantity: product.largeQuantity,
+          xlQuantity: product.xlQuantity
+        }
+      }) :
       {
         state: {
           id: product._id,
