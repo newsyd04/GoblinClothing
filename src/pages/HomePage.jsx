@@ -197,7 +197,7 @@ const HomePage = () => {
                 <Link
                   to={category.link}
                   key={index}
-                  className="min-w-full flex-shrink-0 relative group bg-white shadow-lg rounded-lg overflow-hidden"
+                  className="w-full flex-shrink-0 relative group bg-white shadow-lg rounded-lg overflow-hidden"
                 >
                   <img src={category.image} className="w-full h-64 object-cover" alt={category.title} />
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">

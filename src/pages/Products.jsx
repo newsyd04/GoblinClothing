@@ -129,13 +129,11 @@ function ProductsPage({ cart, setCart }) {
 
       <div className="min-h-screen bg-gray-100">
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className='flex flex-col'>
             <div>
               <h2 className="text-3xl font-extrabold text-gray-900 mb-8">OUR PRODUCTS</h2>
             </div>
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 w-full">
-              {/* Flex container for sorting and showing results */}
-              <div className="flex w-full justify-between items-center">
+              <div className="flex w-full justify-between items-center mb-6 gap-4">
                 <div className="relative">
                   <button
                     className="flex items-center bg-white shadow-md px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 justify-center text-gray-800 font-medium"
@@ -203,7 +201,6 @@ function ProductsPage({ cart, setCart }) {
                 </div>
               ))}
             </div>
-          </div>
         </main>
       </div>
     </>
