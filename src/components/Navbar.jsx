@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaShoppingCart, FaSearch, FaTimes, FaBars } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import Toast from '../components/Toast';
@@ -53,38 +53,53 @@ function Navbar({ cart, setCart }) {
     }
   }, [isSearchModalOpen]);
 
-  const MenuLinks = ({ toggleMenu }) => (
-    <>
-      <Link
-        to="/products"
-        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
-        onClick={toggleMenu}
-      >
-        FASHION
-      </Link>
-      <Link
-        to="/coins"
-        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
-        onClick={toggleMenu}
-      >
-        COINS
-      </Link>
-      <Link
-        to="/amulets"
-        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
-        onClick={toggleMenu}
-      >
-        AMULETS
-      </Link>
-      <Link
-        to="/scraps"
-        className="text-gray-500 block px-3 py-2 rounded-md text-base font-bold"
-        onClick={toggleMenu}
-      >
-        SCRAPS
-      </Link>
-    </>
-  );
+
+  const MenuLinks = ({ toggleMenu }) => {
+    const location = useLocation();
+  
+    const isActive = (path) => location.pathname === path;
+  
+    return (
+      <>
+        <Link
+          to="/products"
+          className={`block px-3 py-2 rounded-md text-base font-bold ${
+            isActive('/products') ? 'text-green-600 bg-gray-100' : 'text-gray-500'
+          }`}
+          onClick={toggleMenu}
+        >
+          FASHION
+        </Link>
+        <Link
+          to="/coins"
+          className={`block px-3 py-2 rounded-md text-base font-bold ${
+            isActive('/coins') ? 'text-green-600 bg-gray-100' : 'text-gray-500'
+          }`}
+          onClick={toggleMenu}
+        >
+          COINS
+        </Link>
+        <Link
+          to="/amulets"
+          className={`block px-3 py-2 rounded-md text-base font-bold ${
+            isActive('/amulets') ? 'text-green-600 bg-gray-100' : 'text-gray-500'
+          }`}
+          onClick={toggleMenu}
+        >
+          AMULETS
+        </Link>
+        <Link
+          to="/scraps"
+          className={`block px-3 py-2 rounded-md text-base font-bold ${
+            isActive('/scraps') ? 'text-green-600 bg-gray-100' : 'text-gray-500'
+          }`}
+          onClick={toggleMenu}
+        >
+          SCRAPS
+        </Link>
+      </>
+    );
+  };
 
   return (
     <>
