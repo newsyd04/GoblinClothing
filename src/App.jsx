@@ -54,7 +54,7 @@ function MainApp({ cart, setCart }) {
         <Route path="/scraps" element={<><ScrapsPage /><Footer /></>} />
         <Route path="/checkout" element={<><CheckoutPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="/cart" element={<><CartPage cart={cart} setCart={setCart} /><Footer /></>} />
-        <Route path="/payment-success" element={<><ConfirmationPage /><Footer /></>} />
+        <Route path="/payment-success" element={<><ConfirmationPage setCart={setCart} /><Footer /></>} />
         <Route path="/search-results" element={<><SearchResultsPage cart={cart} setCart={setCart} /><Footer /></>} />
         <Route path="*" element={<><NotFoundPage /><Footer /></>} />
         <Route path="/ads" element={<><AdsPage /><Footer /></>} />

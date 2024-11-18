@@ -1,8 +1,7 @@
-import React, {useEffect
-} from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function ConfirmationPage() {
+function ConfirmationPage({ setCart }) {
   const navigate = useNavigate();
 
   const handleContinueShopping = () => {
@@ -10,13 +9,11 @@ function ConfirmationPage() {
   };
 
   useEffect(() => {
-    localStorage.removeItem('cart');
-    // sessionStorage.removeItem('cart');
-    // setCart([]);
-
+    localStorage.removeItem('cart'); // Clear local storage
+    setCart([]); // Clear cart state
     window.scrollTo(0, 0);
     document.title = 'Purchase Confirmation - Goblin Clothing';
-  }, []);
+  }, [setCart]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
