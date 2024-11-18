@@ -35,15 +35,6 @@ function ConfirmationPage() {
               Continue Shopping
             </button>
           </div>
-
-          <div className="mt-4 text-center">
-            <button
-              onClick={() => navigate('/orders')}
-              className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-green-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              View Order Details
-            </button>
-          </div>
         </div>
       </div>
     </div>
