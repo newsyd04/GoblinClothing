@@ -11,9 +11,9 @@ function ConfirmationPage() {
 
   useEffect(() => {
     localStorage.removeItem('cart');
-    sessionStorage.removeItem('cart');
-    setCart([]);
-    
+    // sessionStorage.removeItem('cart');
+    // setCart([]);
+
     window.scrollTo(0, 0);
     document.title = 'Purchase Confirmation - Goblin Clothing';
   }, []);
