@@ -10,6 +10,7 @@ function ConfirmationPage() {
   };
 
   useEffect(() => {
+    sessionStorage.clear();
     window.scrollTo(0, 0);
     document.title = 'Purchase Confirmation - Goblin Clothing';
   }, []);
