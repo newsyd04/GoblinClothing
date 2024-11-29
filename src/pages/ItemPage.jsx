@@ -12,6 +12,9 @@ function ItemPage({ cart, setCart }) {
     const hasSizes = largeQuantity || mediumQuantity || smallQuantity || xlQuantity;
 
     const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(image);
+
+    const thumbnails = [image, image, image, image];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -83,19 +86,19 @@ function ItemPage({ cart, setCart }) {
                     break;
             }
         }
-
-        // should be hasSizes check instead of selectedSize later
+        
+         // should be hasSizes check instead of selectedSize later
         const existingProduct = selectedSize ? 
-            cart.find(item => item.productId === (id + selectedSize) && item.size === selectedSize) 
+            cart.find(item => item.productId === (id + selectedSize) && item.size === selectedSize)
             : cart.find(item => item.productId === id);
         if (existingProduct) {
-          setCart(prevCart =>
-            prevCart.map(item =>
-                (item.productId === id || item.productId === id + selectedSize) && (!selectedSize || item.size === selectedSize)
-                ? { ...item, quantity: item.quantity + selectedQuantity }
-                : item
-        )
-          );
+            setCart(prevCart =>
+                prevCart.map(item =>
+                    (item.productId === id || item.productId === id + selectedSize) && (!selectedSize || item.size === selectedSize)
+                        ? { ...item, quantity: item.quantity + selectedQuantity }
+                        : item
+                )
+            );
         } else {
             // should be hasSizes check instead of selectedSize later
             let productId = selectedSize ? id + selectedSize : id;
@@ -112,21 +115,39 @@ function ItemPage({ cart, setCart }) {
         console.log('Updated cart:', cart); // Log entire cart state after addition
         setToastMessage('Item added to cart');
         setShowToast(true);
-      };
+    };
 
     return (
         <>
             <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
 
-            <div className="flex flex-col lg:flex-row mx-[10%] my-8 gap-8 items-center">
+            <div className="flex flex-col lg:flex-row mx-[10%] my-8 gap-8 items-start">
+                {/* Left Side: Thumbnails */}
+                <div className="flex flex-col gap-4">
+                    {/* Generate thumbnails dynamically */}
+                    {thumbnails.map((img, index) => (
+                        <img
+                            key={index}
+                            src={img}
+                            alt={`Thumbnail ${index + 1}`}
+                            onClick={() => setSelectedImage(img)}
+                            className={`w-20 h-20 object-cover rounded-md cursor-pointer transition-all border-2 ${
+                                selectedImage === img ? 'border-green-100' : 'border-gray-300'
+                            }`}
+                        />
+                    ))}
+                </div>
+
+                {/* Center: Main Image */}
                 <div className="flex-1">
                     <img
-                        src={image}
+                        src={selectedImage}
                         alt={name}
                         className="w-full h-auto object-cover rounded-lg shadow-md"
                     />
                 </div>
 
+                {/* Right Side: Product Details */}
                 <div className="flex-1 flex flex-col">
                     <div>
                         <h1 className="text-4xl font-bold text-gray-900 mt-6 mb-3">{name}</h1>
@@ -139,30 +160,36 @@ function ItemPage({ cart, setCart }) {
                         </div>
                     </div>
 
-                    <hr className='my-2'/>
-                    <div className='flex flex-row gap-6'>
-                    {quantity > 0 && (
-                        <> {isSizeable !== false && (
-                            <div className='flex items-start'>
-                                <form className="max-w-sm">
-                                    <label htmlFor="sizes" className="block mb-2 text-sm font-medium text-gray-900">Select a size</label>
-                                    <select 
-                                        id="sizes" 
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        value={selectedSize}
-                                        onChange={(e) => setSelectedSize(e.target.value)}
-                                    >
-                                        <option value=""></option>
-                                        <option value="SM">Small</option>
-                                        <option value="MD">Medium</option>
-                                        <option value="LG">Large</option>
-                                        <option value="XL">Extra-Large</option>
-                                    </select>
-                                </form>
-                            </div>
-                            )}                        
-                            
-                            <div className="mt-6 flex items-center space-x-4">
+                    <hr className="my-2" />
+                    <div className="flex flex-row gap-6">
+                        {quantity > 0 && (
+                            <>
+                                {isSizeable !== false && (
+                                    <div className="flex items-start">
+                                        <form className="max-w-sm">
+                                            <label
+                                                htmlFor="sizes"
+                                                className="block mb-2 text-sm font-medium text-gray-900"
+                                            >
+                                                Select a size
+                                            </label>
+                                            <select
+                                                id="sizes"
+                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value={selectedSize}
+                                                onChange={(e) => setSelectedSize(e.target.value)}
+                                            >
+                                                <option value=""></option>
+                                                <option value="SM">Small</option>
+                                                <option value="MD">Medium</option>
+                                                <option value="LG">Large</option>
+                                                <option value="XL">Extra-Large</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                )}
+
+                                <div className="mt-6 flex items-center space-x-4">
                                     <button
                                         className={`w-8 h-8 flex items-center justify-center bg-gray-600 text-white text-xs font-extrabold rounded-full transition duration-300 transform hover:scale-105
                                 ${selectedQuantity === 1 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-900'}`}
@@ -180,13 +207,14 @@ function ItemPage({ cart, setCart }) {
                                     >
                                         +
                                     </button>
-                                </div></>
-                    )}
+                                </div>
+                            </>
+                        )}
                     </div>
 
                     <div className="mt-6">
                         {quantity > 0 && (
-                            <button 
+                            <button
                                 className={`w-full bg-green-700 text-white py-3 text-lg font-semibold rounded-lg hover:bg-green-900 transition duration-300
                                     ${isSizeable !== false && selectedSize === '' ? 'cursor-not-allowed opacity-50' : 'hover:bg-green-900'}`}
                                 onClick={() => addToCart()}
@@ -200,6 +228,6 @@ function ItemPage({ cart, setCart }) {
             </div>
         </>
     );
-};
+}
 
 export default ItemPage;
