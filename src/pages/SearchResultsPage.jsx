@@ -149,7 +149,11 @@ function SearchResultsPage({ cart, setCart }) {
                 {filteredProducts.map((product) => (
                   <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
                   onClick={() => { handleProductClicked(product) }}>
-                    <img src={product.image} alt={product.name} className="w-full h-60 object-cover" />
+                    <img 
+                        src={Array.isArray(product.image) && product.image.length > 0 ? product.image[0] : "default-image.jpg"} 
+                        alt={product.name} 
+                        className="w-full h-60 object-cover" 
+                    />
                     <div className="flex flex-col items-center  flex-grow p-6">
                       <div className="text-sm font-bold text-gray-900 mb-3" 
                       style={{ 
