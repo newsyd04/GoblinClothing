@@ -8,7 +8,9 @@ import goblin5 from '../assets/goblin5.png';
 import coins from '../assets/Coins4.png';
 import scrap from '../assets/image3.png';
 import amulet from '../assets/image4.png';
-import api from '../api'; // Import your API service
+import api from '../api';
+import gobbo from '../assets/gobbopapertexture.png'
+import legobbo from '../assets/goobolebron.png'
 
 const HomePage = () => {
   const slides = [goblin1, goblin3, goblin4, goblin5];
@@ -141,107 +143,57 @@ const HomePage = () => {
 
       {/* Latest Arrivals Scrollable Section */}
       <div className="container mx-auto p-8">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-center">LATEST ARRIVALS</h2>
-        <div className="overflow-x-auto flex space-x-4 py-4">
+        <div className="overflow-x-auto flex space-x-4 py-4 no-scrollbar">
           {products.map((product, index) => (
-            <div key={index} className="min-w-[300px] max-w-sm bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer">
+            <div 
+              key={index} 
+              className="flex-none w-38 bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"
+            >
               <div onClick={() => handleProductClicked(product)}>
                 <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
-                <div className="p-4 flex flex-col items-center">
-                  <div
-                    className="text-lg font-bold text-gray-900 mb-3"
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      lineHeight: '1.6',
-                      letterSpacing: '0.5px',
-                      color: '#2c3e50',
-                    }}
-                  >
-                    {product.name}
-                  </div>
-                  <div
-                    className="text-green-700 font-bold text-sm mb-4"
-                    style={{
-                      fontFamily: "'Poppins', sans-serif",
-                      fontWeight: '500',
-                      letterSpacing: '0.3px',
-                      lineHeight: '1.5',
-                      color: '#27ae60',
-                    }}
-                  >
-                    {product.price} Shnargles
-                  </div>
-                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-
-      {/* Shop by Category Section */}
-      {/* Shop by Category Section */}
-      <div className="container mx-auto p-8 pb-24 bg-slate-950">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 text-center text-white">SHOP BY CATEGORY</h2>
-
-        {/* Show grid on desktop, carousel on mobile */}
-        {isMobile ? (
-          <div className="relative overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              {categories.map((category, index) => (
-                <Link
-                  to={category.link}
-                  key={index}
-                  className="w-full flex-shrink-0 relative group bg-white shadow-lg rounded-lg overflow-hidden"
-                >
-                  <img src={category.image} className="w-full h-64 object-cover" alt={category.title} />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h3 className="text-lg sm:text-xl font-bold text-white">{category.title}</h3>
-                    <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                      SHOP NOW
-                    </button>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {/* Indicators (Dots) */}
-            <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">
-              {categories.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full mx-1 ${
-                    index === currentIndex ? 'bg-white' : 'bg-gray-400'
-                  }`}
-                ></div>
-              ))}
-            </div>
+      
+      <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-4 sm:px-8 py-6 sm:py-12">
+        <div className="flex flex-row gap-10 sm:gap-20 items-center scale-[0.65] sm:scale-100">
+          
+          {/* Left Image with Overlay Effect */}
+          <div className="relative w-[14rem] h-[18rem] sm:w-[24rem] sm:h-[32rem]">
+            <img src={gobbo} className="absolute top-6 left-6 w-full h-full border-white border-4"></img>
+            <img src={gobbo} className="absolute top-3 left-3 w-full h-full border-white border-4"></img>
+            <img 
+              src={gobbo} 
+              className="absolute top-0 left-0 w-full h-full object-cover border-white border-4"
+            />
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {categories.map((category, index) => (
-              <Link
-                to={category.link}
-                key={index}
-                className="relative group bg-white shadow-lg rounded-lg overflow-hidden"
-              >
-                <img src={category.image} className="w-full h-64 object-cover" alt={category.title} />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-lg sm:text-xl font-bold text-white">{category.title}</h3>
-                  <button className="mt-4 bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-200">
-                    SHOP NOW
-                  </button>
-                </div>
-              </Link>
-            ))}
+
+          {/* Center Text */}
+          <div className="text-center flex flex-col items-center space-y-1 sm:space-y-4">
+            <div className="text-lg sm:text-lg font-extrabold text-gray-900 tracking-wide py-4">
+              GOBLIN X NBA
+            </div>
+            
+            <button className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">
+              Shop the Collection
+            </button>
           </div>
-        )}
-      </div>
+
+          {/* Right Image with Overlay Effect */}
+          <div className="relative w-[14rem] h-[18rem] sm:w-[24rem] sm:h-[32rem]">
+            <img src={legobbo} className="absolute top-6 right-6 w-full h-full border-white border-4"></img>
+            <img src={legobbo} className="absolute top-3 right-3 w-full h-full border-white border-4"></img>
+            <img 
+              src={legobbo} 
+              className="absolute top-0 left-0 w-full h-full object-cover border-white border-4"
+            />
+          </div>
+
+        </div>
+      </section>
+
     </>
   );
 };
