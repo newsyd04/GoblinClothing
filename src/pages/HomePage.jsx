@@ -157,7 +157,7 @@ const HomePage = () => {
         </div>
       </div>
       
-      <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-4 sm:px-8 py-6 sm:py-12">
+      <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-8 sm:px-8 py-6 sm:py-12">
   
         {/* Center Text - Always at the Top */}
         <div className="text-center flex flex-col items-center space-y-2 sm:space-y-4">
