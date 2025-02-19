@@ -197,9 +197,9 @@ const HomePage = () => {
 
         {/* Button - Always Below */}
         <div className="text-center flex flex-col items-center mt-10 sm:mt-20">
-          <button className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">
+          <Link to="/products/" className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">
             Shop the Collection
-          </button>
+          </Link>
         </div>
       </section>
 
