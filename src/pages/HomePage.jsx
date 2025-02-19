@@ -158,33 +158,31 @@ const HomePage = () => {
       </div>
       
       <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-4 sm:px-8 py-6 sm:py-12">
-        <div className="flex flex-row gap-10 sm:gap-20 items-center scale-[0.65] sm:scale-100">
-          
+  
+        {/* Center Text - Always at the Top */}
+        <div className="text-center flex flex-col items-center space-y-2 sm:space-y-4">
+          <div className="text-lg sm:text-3xl font-extrabold text-gray-900 tracking-wide py-4">
+            GOBLIN X NBA
+          </div>
+        </div>
+
+        {/* Image Section - Side by Side on Mobile, Full Size on Desktop */}
+        <div className="flex flex-row gap-20 sm:gap-32 items-center">
+
           {/* Left Image with Overlay Effect */}
-          <div className="relative w-[14rem] h-[18rem] sm:w-[24rem] sm:h-[32rem]">
-            <img src={gobbo} className="absolute top-6 left-6 w-full h-full border-white border-4"></img>
-            <img src={gobbo} className="absolute top-3 left-3 w-full h-full border-white border-4"></img>
+          <div className="relative w-[10rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
+            <img src={gobbo} className="absolute top-6 left-6 sm:top-10 sm:left-10 w-full h-full border-white border-4"></img>
+            <img src={gobbo} className="absolute top-3 left-3 sm:top-5 sm:left-5 w-full h-full border-white border-4"></img>
             <img 
               src={gobbo} 
               className="absolute top-0 left-0 w-full h-full object-cover border-white border-4"
             />
           </div>
 
-          {/* Center Text */}
-          <div className="text-center flex flex-col items-center space-y-1 sm:space-y-4">
-            <div className="text-lg sm:text-lg font-extrabold text-gray-900 tracking-wide py-4">
-              GOBLIN X NBA
-            </div>
-            
-            <button className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">
-              Shop the Collection
-            </button>
-          </div>
-
           {/* Right Image with Overlay Effect */}
-          <div className="relative w-[14rem] h-[18rem] sm:w-[24rem] sm:h-[32rem]">
-            <img src={legobbo} className="absolute top-6 right-6 w-full h-full border-white border-4"></img>
-            <img src={legobbo} className="absolute top-3 right-3 w-full h-full border-white border-4"></img>
+          <div className="relative w-[10rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
+            <img src={legobbo} className="absolute top-6 right-6 sm:top-10 sm:right-10 w-full h-full border-white border-4"></img>
+            <img src={legobbo} className="absolute top-3 right-3 sm:top-5 sm:right-5 w-full h-full border-white border-4"></img>
             <img 
               src={legobbo} 
               className="absolute top-0 left-0 w-full h-full object-cover border-white border-4"
@@ -192,7 +190,15 @@ const HomePage = () => {
           </div>
 
         </div>
+
+        {/* Button - Always Below */}
+        <div className="text-center flex flex-col items-center mt-10 sm:mt-20">
+          <button className="bg-gray-100 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-lg transition-transform transform hover:scale-105">
+            Shop the Collection
+          </button>
+        </div>
       </section>
+
 
     </>
   );
