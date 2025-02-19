@@ -161,7 +161,11 @@ const HomePage = () => {
   
         {/* Center Text - Always at the Top */}
         <div className="text-center flex flex-col items-center space-y-2 sm:space-y-4">
-          <div className="text-lg sm:text-3xl font-extrabold text-gray-900 tracking-wide py-4">
+          <div className="text-lg sm:text-3xl font-extrabold text-gray-900 tracking-wide py-4"             style={{
+              fontFamily: "'Goblin One', sans-serif",
+              textDecoration: 'none',
+              textShadow: '2px 2px 2px green',
+            }}>
             GOBLIN X NBA
           </div>
         </div>
