@@ -151,7 +151,7 @@ function ItemPage({ cart, setCart }) {
                                         src={img}
                                         alt={`Thumbnail ${index + 1}`}
                                         onClick={() => setSelectedImage(img)}
-                                        className="max-w-full max-h-full object-contain"
+                                        className="cursor-pointer max-w-full max-h-full object-contain"
                                     />
                                 </div>
                             ))}
