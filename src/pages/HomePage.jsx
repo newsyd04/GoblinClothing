@@ -10,7 +10,7 @@ import scrap from '../assets/image3.png';
 import amulet from '../assets/image4.png';
 import api from '../api';
 import gobbo from '../assets/gobbopapertexture.png'
-import legobbo from '../assets/goobolebron.png'
+import legobbo from '../assets/bbgobbo.png'
 
 const HomePage = () => {
   const slides = [goblin1, goblin3, goblin4, goblin5];
