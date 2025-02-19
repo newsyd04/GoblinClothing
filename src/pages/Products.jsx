@@ -163,17 +163,17 @@ function ProductsPage({ cart, setCart }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {filteredProducts.map((product) => (
-                <div key={product._id} className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
+                <div key={product._id} className="rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
                   onClick={() => { handleProductClicked(product) }}>
                   <img 
-                      src={Array.isArray(product.image) && product.image.length > 0 ? product.image[0] : "default-image.jpg"} 
-                      alt={product.name} 
-                      className="w-full h-60 object-cover" 
+                    src={Array.isArray(product.image) && product.image.length > 0 ? product.image[0] : "default-image.jpg"} 
+                    alt={product.name} 
+                    className="w-full h-auto aspect-[3/4] object-cover rounded-lg"
                   />
-                  <div className="flex flex-col items-center  flex-grow p-6">
-                    <div className="text-sm font-bold text-gray-900 mb-3" 
+                  <div className="flex flex-col items-center text-center flex-grow p-2">
+                    <div className="text-sm font-bold text-gray-900" 
                       style={{ 
                         fontFamily: "'Poppins', sans-serif", 
                         lineHeight: '1.6', 
@@ -182,25 +182,15 @@ function ProductsPage({ cart, setCart }) {
                       }}>
                     {product.name}
                     </div>
-                    <div className="text-green-700 font-bold text-sm mb-4" 
+                    <div className="text-gray-500 font-bold text-xs mb-4" 
                         style={{ 
                           fontFamily: "'Poppins', sans-serif", 
                           fontWeight: '500', 
                           letterSpacing: '0.3px', 
                           lineHeight: '1.5',
-                          color: '#27ae60'
                         }}>
                       {product.price} Shnargles
                     </div>
-                    {/* <button
-                      className={product.quantity <= 0 ?
-                        "mt-auto w-full bg-gray-300 text-white py-2 px-4 rounded-md text-center cursor-not-allowed"
-                        : "mt-auto w-full bg-green-700 text-white py-2 px-4 rounded-md text-center hover:bg-green-900 transition duration-300 cursor-pointer"}
-                      disabled={product.quantity <= 0}
-                      onClick={(e) => addToCart(product, e)}
-                    >
-                      Add to Cart
-                    </button> */}
                   </div>
                 </div>
               ))}
