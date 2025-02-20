@@ -6,7 +6,8 @@ import Toast from '../components/Toast';
 
 function ProductsPage({ cart, setCart }) {
   const [products, setProducts] = useState([]);
-  const [sortOption, setSortOption] = useState('lowToHigh');
+  const [sortOption, setSortOption] = useState('featured');
+  const [userSorted, setUserSorted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -23,18 +24,24 @@ function ProductsPage({ cart, setCart }) {
         });
         console.log('Fetched Products:', response.data); // Log fetched products
   
-        let filteredProducts = response.data.filter(item => item.type === 'product');
-  
-        switch (sortOption) {
-          case 'lowToHigh':
-            filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
-            break;
-          case 'highToLow':
-            filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
-            break;
-          default:
-            break;
-        }
+        let filteredProducts = response.data.filter(item => 
+          item.type === 'product' &&
+          item.name.toLowerCase().includes(searchQuery.toLowerCase()) // Apply search filter first
+        );
+
+        if (userSorted) {
+          switch (sortOption) {
+            case 'lowToHigh':
+              filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+              break;
+            case 'highToLow':
+              filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+              break;
+            case 'featured':
+            default:
+              break;
+          }
+        }      
   
         setProducts(filteredProducts);
       } catch (error) {
@@ -146,13 +153,19 @@ function ProductsPage({ cart, setCart }) {
                     <div ref={dropdownRef} className="absolute bg-white shadow-lg rounded-lg mt-2 z-10">
                       <div
                         className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
-                        onClick={() => { setSortOption('lowToHigh'); setIsDropdownOpen(false); }}
+                        onClick={() => { setSortOption('featured'); setUserSorted(false); setIsDropdownOpen(false); }}
+                      >
+                        Featured (Default)
+                      </div>
+                      <div
+                        className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
+                        onClick={() => { setSortOption('lowToHigh'); setUserSorted(true); setIsDropdownOpen(false); }}
                       >
                         Price low to high
                       </div>
                       <div
                         className="flex items-center px-4 py-2 cursor-pointer hover:bg-gray-100"
-                        onClick={() => { setSortOption('highToLow'); setIsDropdownOpen(false); }}
+                        onClick={() => { setSortOption('highToLow'); setUserSorted(true); setIsDropdownOpen(false); }}
                       >
                         Price high to low
                       </div>
