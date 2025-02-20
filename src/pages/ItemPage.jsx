@@ -179,23 +179,28 @@ function ItemPage({ cart, setCart }) {
                         <hr className="my-4" />
 
                         {/* Size Selection */}
-                        {isSizeable && (
-                            <div>
-                                <label htmlFor="sizes" className="block text-sm font-medium text-gray-900 mb-1">
-                                    Select a size
-                                </label>
-                                <select
-                                    id="sizes"
-                                    className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-green-500 focus:border-green-500"
-                                    value={selectedSize}
-                                    onChange={(e) => setSelectedSize(e.target.value)}
-                                >
-                                    <option value="">Choose a size</option>
-                                    <option value="SM">Small</option>
-                                    <option value="MD">Medium</option>
-                                    <option value="LG">Large</option>
-                                    <option value="XL">Extra-Large</option>
-                                </select>
+                        {isSizeable !== false && (
+                            <div className="flex items-start">
+                                <form className="max-w-sm">
+                                    <label
+                                        htmlFor="sizes"
+                                        className="block mb-2 text-sm font-medium text-gray-900"
+                                    >
+                                        Select a size
+                                    </label>
+                                    <select
+                                        id="sizes"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        value={selectedSize}
+                                        onChange={(e) => setSelectedSize(e.target.value)}
+                                    >
+                                        <option value=""></option>
+                                        <option value="SM">Small</option>
+                                        <option value="MD">Medium</option>
+                                        <option value="LG">Large</option>
+                                        <option value="XL">Extra-Large</option>
+                                    </select>
+                                </form>
                             </div>
                         )}
 
