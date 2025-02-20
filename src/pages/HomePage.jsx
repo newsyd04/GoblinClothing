@@ -47,18 +47,37 @@ const HomePage = () => {
   }, []);
 
   // Handle product click to navigate to product page
-  const handleProductClicked = (product) => {
-    navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`, {
-      state: {
-        id: product._id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        description: product.description,
-        quantity: product.quantity,
-      },
-    });
-  };
+  function handleProductClicked(product) {
+    navigate(`/products/${product.name.replace(/\s+/g, '-').toLowerCase()}`,
+      product.isSizeable ? ({
+        state: {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+          quantity: product.quantity,
+          type: product.type,
+          isSizeable: product.isSizeable,
+          smallQuantity: product.smallQuantity,
+          mediumQuantity: product.mediumQuantity,
+          largeQuantity: product.largeQuantity,
+          xlQuantity: product.xlQuantity
+        }
+      }) :
+      {
+        state: {
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          description: product.description,
+          quantity: product.quantity,
+          type: product.type,
+          isSizeable: product.isSizeable
+        }
+      });
+  }
 
   const categories = [
     { image: goblin1, title: 'FASHION', link: '/products' },
