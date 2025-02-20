@@ -166,16 +166,23 @@ const HomePage = () => {
           {products.map((product, index) => (
             <div 
               key={index} 
-              className="flex-none w-38 bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer"
+              className="flex-none w-38 bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer relative"
             >
               <div onClick={() => handleProductClicked(product)}>
                 <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
+
+                {/* Sold Out Badge */}
+                {product.quantity === 0 && (
+                  <div className="absolute bottom-2 left-2 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+                    SOLD OUT
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
-      
+            
       <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-8 sm:px-8 py-6 sm:py-12">
   
         {/* Center Text - Always at the Top */}

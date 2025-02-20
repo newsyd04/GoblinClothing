@@ -13,6 +13,7 @@ function ProductsPage({ cart, setCart }) {
   const searchQuery = location.state?.searchQuery || '';
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const [hoveredProduct, setHoveredProduct] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -165,13 +166,26 @@ function ProductsPage({ cart, setCart }) {
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {filteredProducts.map((product) => (
-                <div key={product._id} className="rounded-lg overflow-hidden flex flex-col h-full cursor-pointer transform hover:scale-105 transition duration-300"
+                <div key={product._id} className="rounded-lg overflow-hidden flex flex-col h-full cursor-pointer hover:underline"
                   onClick={() => { handleProductClicked(product) }}>
+                  
+                  <div className="relative" onMouseEnter={() => setHoveredProduct(product._id)} onMouseLeave={() => setHoveredProduct(null)}>
                   <img 
-                    src={Array.isArray(product.image) && product.image.length > 0 ? product.image[0] : "default-image.jpg"} 
+                    src={Array.isArray(product.image) && product.image.length > 1 
+                      ? (hoveredProduct === product._id ? product.image[1] : product.image[0]) 
+                      : product.image[0]
+                    } 
                     alt={product.name} 
                     className="w-full h-auto aspect-[3/4] object-cover rounded-lg"
                   />
+
+                    {/* Sold Out Badge */}
+                    {product.quantity === 0 && (
+                      <div className="absolute bottom-2 left-2 bg-black text-gray-200 text-xs font-bold px-3 py-1 rounded-full">
+                        SOLD OUT
+                      </div>
+                    )}
+                  </div>
                   <div className="flex flex-col items-center text-center flex-grow p-2">
                     <div className="text-sm font-bold text-gray-900" 
                       style={{ 
