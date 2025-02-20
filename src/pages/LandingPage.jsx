@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Goblinpic from '../assets/goblinPic.png';
 import MonkeySong from '../assets/monkey.mp3';
+import Toast from '../components/Toast'
 
 function LandingPage() {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   useEffect(() => {
     const audio = new Audio(MonkeySong);
 
@@ -24,7 +28,24 @@ function LandingPage() {
     audio.play();
   };
 
+  let timeout;
+
+  function stupidPeopleAlert() {
+    timeout = setTimeout(hintFunc, 5000);
+  }
+
+  function hintFunc() {
+    setToastMessage('CLICK ON THE TEXT YOU DUMMY');
+    setShowToast(true);
+  }
+
+  useEffect(() =>{
+    stupidPeopleAlert();
+  }, []); 
+
   return (
+    <>
+    <Toast message={toastMessage} show={showToast} onClose={() => setShowToast(false)} />
     <div className="min-h-screen flex items-center justify-center flex-col bg-gray-100 p-4">
       <img
         alt="goblin logo"
@@ -46,7 +67,7 @@ function LandingPage() {
           Goblin Clothing
         </Link>
       </div>
-    </div>
+    </div></>
   );
 }
 
