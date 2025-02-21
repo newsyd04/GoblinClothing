@@ -169,7 +169,7 @@ const HomePage = () => {
               className="flex-none w-38 bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer relative"
             >
               <div onClick={() => handleProductClicked(product)}>
-                <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
+                <img src={product.image} alt={product.name} className="w-64 h-64 object-cover" />
 
                 {/* Sold Out Badge */}
                 {product.quantity === 0 && (
@@ -183,7 +183,7 @@ const HomePage = () => {
         </div>
       </div>
             
-      <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-8 sm:px-8 py-6 sm:py-12">
+      <section id="about-section" className="bg-gray-200 flex flex-col items-center justify-center px-8 sm:px-8 py-6 sm:py-12 overflow-hidden">
   
         {/* Center Text - Always at the Top */}
         <div className="text-center flex flex-col items-center space-y-2 sm:space-y-4">
@@ -196,11 +196,12 @@ const HomePage = () => {
           </div>
         </div>
 
+            
         {/* Image Section - Side by Side on Mobile, Full Size on Desktop */}
         <div className="flex flex-row gap-20 sm:gap-32 items-center">
 
           {/* Left Image with Overlay Effect */}
-          <div className="relative w-[10rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
+          <div className="relative w-[9rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
             <img src={gobbo} className="absolute top-6 left-6 sm:top-10 sm:left-10 w-full h-full border-white border-4"></img>
             <img src={gobbo} className="absolute top-3 left-3 sm:top-5 sm:left-5 w-full h-full border-white border-4"></img>
             <img 
@@ -210,7 +211,7 @@ const HomePage = () => {
           </div>
 
           {/* Right Image with Overlay Effect */}
-          <div className="relative w-[10rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
+          <div className="relative w-[9rem] h-[14rem] sm:w-[24rem] sm:h-[32rem]">
             <img src={legobbo} className="absolute top-6 right-6 sm:top-10 sm:right-10 w-full h-full border-white border-4"></img>
             <img src={legobbo} className="absolute top-3 right-3 sm:top-5 sm:right-5 w-full h-full border-white border-4"></img>
             <img 
