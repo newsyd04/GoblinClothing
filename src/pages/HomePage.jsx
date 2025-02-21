@@ -169,7 +169,7 @@ const HomePage = () => {
               className="flex-none w-38 bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer relative"
             >
               <div onClick={() => handleProductClicked(product)}>
-                <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
+                <img src={product.image} alt={product.name} className="w-64 h-64 object-cover" />
 
                 {/* Sold Out Badge */}
                 {product.quantity === 0 && (
