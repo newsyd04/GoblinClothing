@@ -18,7 +18,7 @@ function ItemPage({ cart, setCart }) {
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
     const thumbnails = Array.isArray(product?.image) ? product.image : []; 
-    const [selectedImage, setSelectedImage] = useState(thumbnails.length > 0 ? thumbnails[0] : "default-image.jpg");  
+    const [selectedImage, setSelectedImage] = useState("default-image.jpg");  
 
     useEffect(() => {
         if(!state) {
@@ -53,6 +53,12 @@ function ItemPage({ cart, setCart }) {
             document.title = name + " - Goblin Clothing";
         }
     }, [product?.name]);
+
+    useEffect(() => {
+        if (thumbnails.length > 0) {
+            setSelectedImage(thumbnails[0]);
+        }
+    }, [thumbnails]);
 
     if (loading) {
         return <p>Loading...</p>;
