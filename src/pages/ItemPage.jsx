@@ -3,25 +3,70 @@ import { useLocation } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Carousel styles
 import Toast from '../components/Toast';
+import NotFoundPage from './NotFoundPage';
+import api from '../api';
 
 function ItemPage({ cart, setCart }) {
     const { state } = useLocation();
-    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type, isSizeable } = state;
-    console.log('ItemPage state:', state);
+
+    const [product, setProduct] = useState(state || null);
+    const [loading, setLoading] = useState(!state);
+    const [error, setError] = useState(false);
     const [selectedSize, setSelectedSize] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
-    const hasSizes = largeQuantity || mediumQuantity || smallQuantity || xlQuantity;
-
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-    const thumbnails = Array.isArray(image) ? image : []; 
-    const [selectedImage, setSelectedImage] = useState(thumbnails.length > 0 ? thumbnails[0] : "default-image.jpg");    
+    const thumbnails = Array.isArray(product?.image) ? product.image : []; 
+    const [selectedImage, setSelectedImage] = useState(thumbnails.length > 0 ? thumbnails[0] : "default-image.jpg");  
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-        document.title = name + " - Goblin Clothing";
-    }, [name]);
+        if(!state) {
+            const fetchProduct = async () => {
+                try {
+                    setLoading(true);
+                    const searchQuery = window.location.pathname.split('/').pop();
+                    console.log('Search Query:', searchQuery);
+                    
+                    const response = await api.get(`products/${searchQuery}`);
+                    console.log('Fetched Product:', response.data);
+
+                    let { _id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type, isSizeable } = response.data;
+                    setProduct({ id: _id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type, isSizeable });    
+                    setError(false);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    setError(true);
+                }
+                finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchProduct();
+        }
+    }, [state]);
+
+    useEffect(() => {
+        if (product?.name) {
+            window.scrollTo(0, 0);
+            document.title = name + " - Goblin Clothing";
+        }
+    }, [product?.name]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error || !product) {
+        return (
+            <NotFoundPage />
+        )
+    }
+
+    const { id, name, price, image, description, quantity, largeQuantity, mediumQuantity, smallQuantity, xlQuantity, type, isSizeable } = product;
+    console.log('ItemPage state:', state);
+    const hasSizes = largeQuantity || mediumQuantity || smallQuantity || xlQuantity;  
 
     const handleQuantityChange = (type) => {
         if (type === 'increment' && selectedQuantity < quantity) {
