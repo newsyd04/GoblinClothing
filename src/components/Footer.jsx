@@ -13,13 +13,13 @@ function Footer() {
 
         {/* Social Media Links */}
         <div className="flex space-x-6 mb-4 md:mb-0">
-          <a href="#" className="text-green-200 hover:text-green-400">
+          <a href="https://www.facebook.com/LeBron/" className="text-green-200 hover:text-green-400">
             <FaFacebook size="1.5em" />
           </a>
-          <a href="#" className="text-green-200 hover:text-green-400">
+          <a href="https://www.instagram.com/wearthegoblin/" className="text-green-200 hover:text-green-400">
             <FaInstagram size="1.5em" />
           </a>
-          <a href="#" className="text-green-200 hover:text-green-400">
+          <a href="https://x.com/tiagosplitter?lang=en" className="text-green-200 hover:text-green-400">
             <FaTwitter size="1.5em" />
           </a>
         </div>
@@ -33,7 +33,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-green-400">
+              <a href="https://www.instagram.com/wearthegoblin/" className="hover:text-green-400">
                 Contact
               </a>
             </li>
